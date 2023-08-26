@@ -123,11 +123,12 @@ class Fillers extends React.Component {
 }
 
 
-function BurgerIngredients(props) {
+function BurgerIngredients({ burgersData }) {
     const [current, setCurrent] = React.useState('buns');
-    const bunsData = props.burgersData.filter(item => 'bun'.indexOf(item.type) !== -1);
-    const saucesData = props.burgersData.filter(item => 'sauce'.indexOf(item.type) !== -1);
-    const fillersData = props.burgersData.filter(item => 'main'.indexOf(item.type) !== -1);
+
+    const bunsData = burgersData.filter(item => item.type.includes('bun'));
+    const saucesData = burgersData.filter(item => item.type.includes('sauce'));
+    const fillersData = burgersData.filter(item => item.type.includes('main'));
 
     return (
         <section className={styles.container}>
