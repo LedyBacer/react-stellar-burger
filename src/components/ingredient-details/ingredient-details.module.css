@@ -1,0 +1,25 @@
+.box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 0 60px 0;
+}
+
+.title {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.str {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

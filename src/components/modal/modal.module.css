@@ -1,0 +1,26 @@
+.modal {
+    width: 100%;
+    min-height: 50vh;
+    max-width: 720px;
+    background-color: #1c1c21;
+    border-radius: 30px;
+    display: flex;
+    flex-flow: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    z-index: 999;
+}
+
+.button {
+    position: absolute;
+    right: 45px;
+    top: 47px;
+    cursor: pointer;
+}
+
+.header {
+    margin: 40px 0 0 40px;
+}

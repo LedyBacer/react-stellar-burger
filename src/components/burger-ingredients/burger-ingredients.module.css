@@ -1,0 +1,35 @@
+.container {
+    width: 600px;
+}
+
+.ingridients {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 24px;
+    grid-row-gap: 32px;
+}
+
+.ingredient_container {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.ingridient {
+    text-align: center;
+    position: relative;
+}
+
+.ingridient_image {
+    display: block;
+}
+
+.price {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.flex {
+    display: flex;
+}
