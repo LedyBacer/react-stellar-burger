@@ -1,4 +1,5 @@
 import styles from "./order-details.module.css";
+import done from "../../images/done.png"
 
 export function OrderDetails() {
 
@@ -8,7 +9,7 @@ export function OrderDetails() {
             <p className="text text_type_main-medium pt-8 pb-15">
                 Идентификатор заказа
             </p>
-            <img src={require("../../images/done.png")} alt="Галочка" className="pb-15" />
+            <img src={done} alt="Галочка" className="pb-15" />
             <p className="text text_type_main-small pb-2">
                 Ваш заказ начали готовить
             </p>

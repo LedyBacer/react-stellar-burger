@@ -9,19 +9,19 @@ const modalRoot = document.getElementById("modal-root");
 
 export default function Modal({ handleModalOpen, children, modalHeader }) {
 
+    const handleClose = () => {
+        handleModalOpen(false);
+    };
+
     React.useEffect(() => {
         function onEsc(evt) {
             if (evt.code === "Escape") {
-                handleModalOpen(false);
+                handleClose();
             }
         }
         document.addEventListener("keydown", onEsc);
         return () => document.removeEventListener("keydown", onEsc);
     }, []);
-
-    const handleClose = () => {
-        handleModalOpen(false);
-    };
 
     return ReactDOM.createPortal(
         (
@@ -39,7 +39,7 @@ export default function Modal({ handleModalOpen, children, modalHeader }) {
                     </div>
                     {children}
                 </div>
-                <Overlay handleModalOpen={handleModalOpen} />
+                <Overlay handleClose={handleClose}/>
             </>
         ),
         modalRoot

@@ -25,9 +25,7 @@ function App() {
                 setBurgersData(data.data);
                 handleCart(["643d69a5c3f7b9001cfa093c", "643d69a5c3f7b9001cfa0945", "643d69a5c3f7b9001cfa093f", "643d69a5c3f7b9001cfa0949"])
             })
-            .catch((err) => {
-                console.log(err);
-            });
+            .catch(console.error);
     }, []);
 
     React.useEffect(() => {

@@ -17,7 +17,7 @@ function IncludingIngredients({ burgersData, cart, bunIds, handleCart }) {
                     const [ ingredient ] = burgersData.filter(e => e._id.includes(ingredientId))
 
                     return (
-                        <div className={styles.ingridient}>
+                        <div className={styles.ingridient} key={ingredientId}>
                             <DragIcon type="primary" />
                             <ConstructorElement
                                 text={ingredient.name}
@@ -43,16 +43,15 @@ function BunIngredient({ burgersData, cart, bunIds, position, type }) {
                         const [ ingredient ] = burgersData.filter(e => e._id.includes(ingredientId))
 
                         return (
-                            <>
-                                <ConstructorElement
-                                    type={type}
-                                    isLocked={true}
-                                    text={ingredient.name + position}
-                                    price={ingredient.price}
-                                    thumbnail={ingredient.image}
-                                    extraClass="ml-8"
-                                />
-                            </>
+                            <ConstructorElement
+                                type={type}
+                                isLocked={true}
+                                text={ingredient.name + position}
+                                price={ingredient.price}
+                                thumbnail={ingredient.image}
+                                extraClass="ml-8"
+                                key={ingredientId}
+                            />
                         )
                     }
             })}

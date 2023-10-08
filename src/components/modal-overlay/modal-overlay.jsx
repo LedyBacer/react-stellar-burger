@@ -1,9 +1,6 @@
 import styles from "./modal-overlay.module.css";
 
-export default function Overlay({ handleModalOpen }) {
-    const handleClick = () => {
-        handleModalOpen(false);
-    };
+export default function Overlay({ handleClose }) {
 
-    return <div className={styles.overlay} onClick={handleClick}></div>;
+    return <div className={styles.overlay} onClick={handleClose}></div>;
 }
