@@ -10,6 +10,11 @@
     grid-row-gap: 32px;
 }
 
+.ingredient_container {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
 .ingridient {
     text-align: center;
     position: relative;
