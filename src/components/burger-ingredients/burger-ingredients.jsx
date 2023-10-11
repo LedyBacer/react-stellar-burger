@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
     Tab,
     CurrencyIcon,
@@ -6,6 +6,9 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css'
 import {burgerIngredientsPropType} from "../../utils/prop-types";
+import {useDispatch, useSelector} from "react-redux";
+import {getIngredients, setIngredients} from "../../services/ingredientsSlice";
+import {addIngredient, setIsOpen, setModalHeader, setModalType} from "../../services/detailsSlice";
 
 function ItemCounter(props) {
     const count = props.cart.filter((e) => e === props.id).length;
@@ -36,7 +39,12 @@ function Ingredients(props) {
     );
 }
 
-function BurgerIngredients({ burgersData, cart, handleCart, handleIngredientData, handleModalOpen, setModalType, setModalHeader }) {
+//function BurgerIngredients({ burgersData, cart, handleCart, handleIngredientData, handleModalOpen, setModalType, setModalHeader }) {
+function BurgerIngredients() {
+    const dispatch = useDispatch();
+    const burgersData = useSelector(state => state.ingredients.burgersData);
+    const cart = useSelector(state => state.constructorCart.ingredientsId);
+
     const [current, setCurrent] = React.useState('buns');
 
     const bunsData = React.useMemo(() => burgersData.filter(item => item.type.includes('bun')), [burgersData]);
@@ -63,19 +71,20 @@ function BurgerIngredients({ burgersData, cart, handleCart, handleIngredientData
     //     }
     // }
 
-    const setCart = e => {
+    const openModal = e => {
         const selectedProductId = e.target.getAttribute("data-id");
         const [ tempIngData ] = burgersData.filter(item => item._id.includes(selectedProductId))
-        handleIngredientData(tempIngData);
-        setModalType('');
-        setModalHeader('Детали ингредиента');
-        handleModalOpen(true);
+
+        dispatch(addIngredient(tempIngData));
+        dispatch(setModalType(''));
+        dispatch(setModalHeader('Детали ингредиента'));
+        dispatch(setIsOpen(true));
     }
 
     const allIngridients = {
-        buns: <><p className="text text_type_main-medium mt-10">Булки</p><Ingredients ingridientData={bunsData} handleClick={setCart} cart={cart}/></>,
-        sauces: <><p className="text text_type_main-medium mt-10">Соусы</p><Ingredients ingridientData={saucesData} handleClick={setCart} cart={cart}/></>,
-        fillers: <><p className="text text_type_main-medium mt-10">Начинки</p><Ingredients ingridientData={fillersData} handleClick={setCart} cart={cart}/></>
+        buns: <><p className="text text_type_main-medium mt-10">Булки</p><Ingredients ingridientData={bunsData} handleClick={openModal} cart={cart}/></>,
+        sauces: <><p className="text text_type_main-medium mt-10">Соусы</p><Ingredients ingridientData={saucesData} handleClick={openModal} cart={cart}/></>,
+        fillers: <><p className="text text_type_main-medium mt-10">Начинки</p><Ingredients ingridientData={fillersData} handleClick={openModal} cart={cart}/></>
     };
 
     const ingridientsOrder = {

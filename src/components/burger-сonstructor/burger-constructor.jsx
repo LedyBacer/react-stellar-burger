@@ -1,14 +1,12 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styles from './burger-constructor.module.css'
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {burgerConstructorPropType} from "../../utils/prop-types";
+import {useDispatch, useSelector} from "react-redux";
+import {setIsOpen, setModalHeader, setModalType} from "../../services/detailsSlice";
+import {removeIngredient} from "../../services/constructorSlice";
 
 function IncludingIngredients({ burgersData, cart, bunIds, handleCart }) {
-    const handleClose = (ingredientId) => {
-        const tempCart = [...cart]
-        tempCart.splice(tempCart.indexOf(ingredientId), 1);
-        handleCart(tempCart);
-    }
 
     return (
         <div className={styles.ingredient_container}>
@@ -24,7 +22,7 @@ function IncludingIngredients({ burgersData, cart, bunIds, handleCart }) {
                                 price={ingredient.price}
                                 thumbnail={ingredient.image}
                                 extraClass="ml-2"
-                                handleClose={() => handleClose(ingredientId)}
+                                handleClose={() => handleCart(ingredientId)}
                             />
                         </div>
                     )
@@ -59,14 +57,34 @@ function BunIngredient({ burgersData, cart, bunIds, position, type }) {
     )
 }
 
-function BurgerConstructor({ burgersData, cart, handleCart, total, handleModalOpen, setModalType, setModalHeader }) {
+function BurgerConstructor() {
+    const burgersData = useSelector(state => state.ingredients.burgersData);
+    const cart = useSelector(state => state.constructorCart.ingredientsId);
+    const [total, setTotal] = React.useState(0);
+    const dispatch = useDispatch();
 
     const bunIds = React.useMemo(() => burgersData.filter(item => item.type.includes('bun')).map(e => e._id), [burgersData]);
+
     const handleOrder = () => {
-        setModalType('order');
-        setModalHeader('');
-        handleModalOpen(true);
+        dispatch(setModalType('order'));
+        dispatch(setModalHeader(''));
+        dispatch(setIsOpen(true));
     }
+
+    const handleCart = (e) => {
+        dispatch(removeIngredient(e));
+    }
+
+    React.useEffect(() => {
+        let tempTotal = 0;
+
+        cart.map((ingredientId) => {
+            const [ ingredient ] = burgersData.filter(e => e._id.includes(ingredientId))
+            tempTotal = tempTotal + ingredient.price
+        })
+
+        setTotal(tempTotal)
+    }, [cart, burgersData]);
 
     return (
         <section className={`${styles.container} ml-10`}>

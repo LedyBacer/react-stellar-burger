@@ -1,7 +1,9 @@
 import styles from "./ingredient-details.module.css";
 import {ingredientsDetailsPropType} from "../../utils/prop-types";
+import {useSelector} from "react-redux";
 
-export function IngredientsDetails({ ingredientData }) {
+export function IngredientsDetails() {
+    const ingredientData = useSelector(state => state.details.ingDetails);
 
     return (
         <div className={styles.box}>
