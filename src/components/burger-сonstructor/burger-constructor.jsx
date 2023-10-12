@@ -163,11 +163,11 @@ function BurgerConstructor() {
     return (
         <section className={`${styles.container} ml-10`} ref={ref}>
             <div className={`${styles.constructor} mt-25 ml-4 mr-4`}>
-                {!(cart.length === 0 && bunInCartId === '') ?
+                {!(cart.length === 0 && isDisabled) ?
                     <>
-                        {!(bunInCartId === '') && <BunIngredient ingredient={bunIngredient} position=' (верх)' type='top'/>}
+                        {!isDisabled && <BunIngredient ingredient={bunIngredient} position=' (верх)' type='top'/>}
                         {!(cart.length === 0) && <IncludingIngredients burgersData={burgersData} cart={cart} handleCart={handleCart} dispatch={dispatch}/>}
-                        {!(bunInCartId === '') && <BunIngredient ingredient={bunIngredient} position=' (низ)' type='bottom'/>}
+                        {!isDisabled && <BunIngredient ingredient={bunIngredient} position=' (низ)' type='bottom'/>}
                     </>
                 : <p className="text text_type_main-medium mt-10">Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа</p>
                 }
