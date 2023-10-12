@@ -1,0 +1,1 @@
+export const apiAdress = 'https://norma.nomoreparties.space/api/orders'

@@ -110,17 +110,7 @@ function BurgerConstructor() {
     const cart = useSelector(state => state.constructorCart.ingredientsId);
     const dispatch = useDispatch();
     const bunInCartId = useSelector(state => state.constructorCart.bunId);
-
-    const handleOrder = () => {
-        dispatch(placeOrder([cart, bunInCartId]));
-        dispatch(setModalType('order'));
-        dispatch(setModalHeader(''));
-        dispatch(setIsOpen(true));
-    }
-
-    const handleCart = (e) => {
-        dispatch(removeIngredient(e));
-    }
+    const ref = useRef(null)
 
     const totalPrice = useMemo(() => {
         let tempTotal = 0;
@@ -136,7 +126,14 @@ function BurgerConstructor() {
         return tempTotal
     }, [cart, bunInCartId, burgersData])
 
-    const ref = useRef(null)
+    const handleOrder = () => {
+        dispatch(placeOrder([cart, bunInCartId]));
+        dispatch(setModalType('order'));
+        dispatch(setModalHeader(''));
+        dispatch(setIsOpen(true));
+    }
+
+    const handleCart = (e) => dispatch(removeIngredient(e))
     const handleDropNewItem = (item) => dispatch(addIngredient(item.id));
     const handleDropNewBun = (item) => dispatch(replaceBun(item.id));
 

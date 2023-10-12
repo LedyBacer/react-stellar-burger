@@ -1,9 +1,10 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {apiAdress} from "../utils/api";
 
 const orderSlice = createSlice({
     name: 'order',
     initialState: {
-        id: "034536",
+        id: "000000",
         orderErr: false,
         orderRequest: false,
         orderReady: false
@@ -22,6 +23,7 @@ const orderSlice = createSlice({
         fetchError(state, action) {
             state.orderRequest = false;
             state.orderErr = true;
+            state.id = "000000";
         }
     },
 })
@@ -31,10 +33,10 @@ export function placeOrder(payload) {
         dispatch(orderSlice.actions.fetchStarted());
 
         const [ items, bun ] = payload;
-        let tempCart = [bun];
+        let tempCart = [bun, bun];
         items.map(e => tempCart.push(e.ingredientId));
 
-        fetch("https://norma.nomoreparties.space/api/orders", {
+        fetch(apiAdress, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -52,7 +54,8 @@ export function placeOrder(payload) {
                 }
             })
             .catch(err => {
-                dispatch(orderSlice.actions.fetchError())
+                dispatch(orderSlice.actions.fetchError());
+                console.error(err);
             });
     }
 }

@@ -1,4 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {apiAdress} from "../utils/api";
 
 const ingredientsSlice = createSlice({
     name: 'ingredients',
@@ -29,7 +30,7 @@ const ingredientsSlice = createSlice({
 export function getIngredients() {
     return function(dispatch) {
         dispatch(ingredientsSlice.actions.fetchStarted());
-        fetch("https://norma.nomoreparties.space/api/ingredients")
+        fetch(apiAdress)
             .then(res => res.json())
             .then(res => {
                 if (res && res.success) {
@@ -40,6 +41,7 @@ export function getIngredients() {
             })
             .catch(err => {
                 dispatch(ingredientsSlice.actions.fetchError())
+                console.error(err)
             });
     }
 }

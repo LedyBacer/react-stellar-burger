@@ -43,8 +43,14 @@ function Ingredients({item, handleClick, type}) {
 function BurgerIngredients() {
     const dispatch = useDispatch();
     const burgersData = useSelector(state => state.ingredients.burgersData);
+
     const [currentTab, setCurrentTab] = React.useState('buns');
     const [scroll, scrollTo] = React.useState('');
+
+    const refBun = React.useRef(null);
+    const refSauce = React.useRef(null);
+    const refFillers = React.useRef(null);
+    const scrollRef = React.useRef(null);
 
     const bunsData = React.useMemo(() => burgersData.filter(item => item.type.includes('bun')), [burgersData]);
     const saucesData = React.useMemo(() => burgersData.filter(item => item.type.includes('sauce')), [burgersData]);
@@ -58,11 +64,6 @@ function BurgerIngredients() {
         dispatch(setModalHeader('Детали ингредиента'));
         dispatch(setIsOpen(true));
     }
-
-    const refBun = React.useRef(null);
-    const refSauce = React.useRef(null);
-    const refFillers = React.useRef(null);
-    const scrollRef = React.useRef(null);
 
     useEffect(() => {
         const currents = [refBun.current, refSauce.current, refFillers.current];
