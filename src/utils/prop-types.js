@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 
-export const burgData = PropTypes.shape({
+export const burgData = {
+    _id: PropTypes.string.isRequired,
     calories: PropTypes.number.isRequired,
     carbohydrates: PropTypes.number.isRequired,
     fat: PropTypes.number.isRequired,
@@ -12,34 +13,38 @@ export const burgData = PropTypes.shape({
     proteins: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     __v: PropTypes.number.isRequired,
-    _id: PropTypes.string.isRequired,
-});
-
-export const burgerIngredientsPropType = {
-    burgersData: PropTypes.arrayOf(burgData).isRequired,
-    cart: PropTypes.array.isRequired,
-    handleCart: PropTypes.func.isRequired,
-    handleIngredientData: PropTypes.func.isRequired,
-    handleModalOpen: PropTypes.func.isRequired,
-    setModalType: PropTypes.func.isRequired,
-    setModalHeader: PropTypes.func.isRequired,
 };
 
-export const burgerConstructorPropType = {
-    total: PropTypes.number.isRequired,
-    burgersData: PropTypes.arrayOf(burgData).isRequired,
-    cart: PropTypes.array.isRequired,
+export const ingredientItem = {
+    ingredient: PropTypes.shape(burgData).isRequired,
     handleCart: PropTypes.func.isRequired,
-    handleModalOpen: PropTypes.func.isRequired,
-    setModalType: PropTypes.func.isRequired,
-    setModalHeader: PropTypes.func.isRequired,
+    index: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
+    moveCard: PropTypes.func.isRequired,
 }
 
-export const modalPropType = {
-    handleModalOpen: PropTypes.func.isRequired,
-    modalHeader: PropTypes.string,
+export const includingIngredients = {
+    burgersData: PropTypes.arrayOf(PropTypes.shape(burgData)).isRequired,
+    cart: PropTypes.arrayOf(PropTypes.shape({
+        ingredientId: PropTypes.string.isRequired,
+        cardId: PropTypes.string.isRequired
+    })).isRequired,
+    handleCart: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired,
 }
 
-export const ingredientsDetailsPropType = {
-    ingredientData: PropTypes.shape({burgData}),
+export const bunIngredient = {
+    position: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    ingredient: PropTypes.shape(burgData).isRequired
+}
+
+export const ingredientsPropType = {
+    item: PropTypes.shape(burgData).isRequired,
+    handleClick: PropTypes.func.isRequired,
+    type: PropTypes.string.isRequired
+};
+
+export const modalOverlayPropType = {
+    handleClose: PropTypes.func.isRequired
 }

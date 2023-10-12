@@ -3,14 +3,20 @@ import React from 'react';
 import styles from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import Overlay from "../modal-overlay/modal-overlay";
-import {modalPropType} from "../../utils/prop-types";
+import {setIsOpen} from "../../services/detailsSlice";
+import {useDispatch, useSelector} from "react-redux";
 
 const modalRoot = document.getElementById("modal-root");
 
-export default function Modal({ handleModalOpen, children, modalHeader }) {
+export default function Modal({ children }) {
+    const dispatch = useDispatch();
+    const modalHeader = useSelector(state => state.details.modalHeader);
+    const isLoading = useSelector(state => state.order.orderReady);
 
     const handleClose = () => {
-        handleModalOpen(false);
+        if (isLoading) {
+            dispatch(setIsOpen(false));
+        }
     };
 
     React.useEffect(() => {
@@ -21,7 +27,7 @@ export default function Modal({ handleModalOpen, children, modalHeader }) {
         }
         document.addEventListener("keydown", onEsc);
         return () => document.removeEventListener("keydown", onEsc);
-    }, []);
+    }, [isLoading]);
 
     return ReactDOM.createPortal(
         (
@@ -45,5 +51,3 @@ export default function Modal({ handleModalOpen, children, modalHeader }) {
         modalRoot
     );
 }
-
-Modal.propTypes = { ...modalPropType }
