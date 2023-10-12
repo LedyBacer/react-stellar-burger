@@ -12,10 +12,13 @@ const modalRoot = document.getElementById("modal-root");
 export default function Modal({ children }) {
     const dispatch = useDispatch();
     const modalHeader = useSelector(state => state.details.modalHeader);
+    const isLoading = useSelector(state => state.order.orderRequest);
 
     const handleClose = () => {
-        dispatch(setIsOpen(false));
-        dispatch(removeIngredient())
+        if (!isLoading) {
+            dispatch(setIsOpen(false));
+            dispatch(removeIngredient())
+        }
     };
 
     React.useEffect(() => {

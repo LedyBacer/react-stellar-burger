@@ -22,7 +22,7 @@ export function OrderDetails() {
                         Дождитесь готовности на орбитальной станции
                     </p>
                 </>
-                : <p>Загрузка..</p>}
+                : <p className="text text_type_main-medium pt-8 pb-15">Загрузка..</p>}
         </div>
     )
 }

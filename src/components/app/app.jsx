@@ -8,6 +8,8 @@ import {OrderDetails} from "../order-details/order-details";
 import {IngredientsDetails} from "../ingredient-details/ingredient-details";
 import {getIngredients} from "../../services/ingredientsSlice";
 import {useDispatch, useSelector} from "react-redux";
+import {HTML5Backend} from "react-dnd-html5-backend";
+import { DndProvider } from 'react-dnd'
 
 function App() {
     const dispatch = useDispatch();
@@ -24,10 +26,12 @@ function App() {
             {isLoaded ?
                 <div className={styles.app}>
                     <AppHeader />
-                    <main className={styles.main}>
-                        <BurgerIngredients />
-                        <BurgerConstructor />
-                    </main>
+                    <DndProvider backend={HTML5Backend}>
+                        <main className={styles.main}>
+                            <BurgerIngredients />
+                            <BurgerConstructor />
+                        </main>
+                    </DndProvider>
                     {isModalOpen &&
                         <Modal>
                             {modalType === "order" ? (

@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useMemo} from "react";
 import {
     Tab,
     CurrencyIcon,
@@ -9,106 +9,120 @@ import {burgerIngredientsPropType} from "../../utils/prop-types";
 import {useDispatch, useSelector} from "react-redux";
 import {getIngredients, setIngredients} from "../../services/ingredientsSlice";
 import {addIngredient, setIsOpen, setModalHeader, setModalType} from "../../services/detailsSlice";
+import {useDrag} from "react-dnd";
 
-function ItemCounter(props) {
-    const count = props.cart.filter((e) => e === props.id).length;
+function Ingredients({item, handleClick, type}) {
+    const bunId = useSelector(state => state.constructorCart.bunId);
+    const cart = useSelector(state => state.constructorCart.ingredientsId);
+
+    const count = useMemo(() => cart.filter(e => e.ingredientId === item._id).length, [cart]);
+    const isItemInCart = useMemo(() => cart.some(e => e.ingredientId === item._id), [cart]);
+
+    const [, drag] = useDrag({
+        type: type,
+        item: {id: item._id},
+        collect: monitor => ({
+            isDrag: monitor.isDragging()
+        })
+    });
 
     return (
-        <Counter count={count} size="default" extraClass="m-1" />
+        <div ref={drag} className={styles.ingridient} onClick={handleClick} data-id={item._id}>
+            {isItemInCart && <Counter count={count} size="default" extraClass="m-1" />}
+            {bunId === item._id && <Counter count={1} size="default" extraClass="m-1" />}
+            <img alt={item.name} src={item.image} className={`${styles.ingridient_image} ml-4`} data-id={item._id}/>
+            <div className={`${styles.price} mt-1`} data-id={item._id}>
+                <p className="text text_type_digits-default" data-id={item._id}>{item.price}</p>
+                <CurrencyIcon type="primary" data-id={item._id}/>
+            </div>
+            <p className="text text_type_main-default mt-1" data-id={item._id}>{item.name}</p>
+        </div>
     );
 }
 
-function Ingredients(props) {
-
-    return (
-        <section className={`${styles.ingridients} mt-6 ml-4 mr-4`}>
-            {props.ingridientData.map(item => {
-                return (
-                    <div className={styles.ingridient} key={item._id} onClick={props.handleClick} data-id={item._id}>
-                        {props.cart.includes(item._id) && <ItemCounter id={item._id} cart={props.cart}/>}
-                        <img alt={item.name} src={item.image} className={`${styles.ingridient_image} ml-4`} data-id={item._id}/>
-                        <div className={`${styles.price} mt-1`} data-id={item._id}>
-                            <p className="text text_type_digits-default" data-id={item._id}>{item.price}</p>
-                            <CurrencyIcon type="primary" data-id={item._id}/>
-                        </div>
-                        <p className="text text_type_main-default mt-1" data-id={item._id}>{item.name}</p>
-                    </div>
-                )
-            })}
-        </section>
-    );
-}
-
-//function BurgerIngredients({ burgersData, cart, handleCart, handleIngredientData, handleModalOpen, setModalType, setModalHeader }) {
 function BurgerIngredients() {
     const dispatch = useDispatch();
     const burgersData = useSelector(state => state.ingredients.burgersData);
-    const cart = useSelector(state => state.constructorCart.ingredientsId);
-
-    const [current, setCurrent] = React.useState('buns');
+    const [currentTab, setCurrentTab] = React.useState('buns');
+    const [scroll, scrollTo] = React.useState('');
 
     const bunsData = React.useMemo(() => burgersData.filter(item => item.type.includes('bun')), [burgersData]);
-    // const bunIds = React.useMemo(() => bunsData.map(e => e._id), [bunsData]);
     const saucesData = React.useMemo(() => burgersData.filter(item => item.type.includes('sauce')), [burgersData]);
     const fillersData = React.useMemo(() => burgersData.filter(item => item.type.includes('main')), [burgersData]);
-
-    // const setCart = e => {
-    //     const selectedProductId = e.target.getAttribute("data-id");
-    //     // handleCart([...cart, selectedProductId]);
-    //
-    //     if (!cart.includes(selectedProductId) && cart.some(r => bunIds.indexOf(r) >= 0) && bunIds.includes(selectedProductId)) {
-    //         bunIds.forEach(bunId => {
-    //             if (cart.includes(bunId)) {
-    //                 let tempCart = cart.filter((id) => {
-    //                     return id !== bunId
-    //                 });
-    //                 tempCart = [...tempCart, selectedProductId];
-    //                 handleCart(tempCart);
-    //             }
-    //         })
-    //     } else if (!(cart.includes(selectedProductId) && bunIds.includes(selectedProductId))) {
-    //         handleCart([...cart, selectedProductId]);
-    //     }
-    // }
 
     const openModal = e => {
         const selectedProductId = e.target.getAttribute("data-id");
         const [ tempIngData ] = burgersData.filter(item => item._id.includes(selectedProductId))
-
         dispatch(addIngredient(tempIngData));
         dispatch(setModalType(''));
         dispatch(setModalHeader('Детали ингредиента'));
         dispatch(setIsOpen(true));
     }
 
-    const allIngridients = {
-        buns: <><p className="text text_type_main-medium mt-10">Булки</p><Ingredients ingridientData={bunsData} handleClick={openModal} cart={cart}/></>,
-        sauces: <><p className="text text_type_main-medium mt-10">Соусы</p><Ingredients ingridientData={saucesData} handleClick={openModal} cart={cart}/></>,
-        fillers: <><p className="text text_type_main-medium mt-10">Начинки</p><Ingredients ingridientData={fillersData} handleClick={openModal} cart={cart}/></>
-    };
+    const refBun = React.useRef(null);
+    const refSauce = React.useRef(null);
+    const refFillers = React.useRef(null);
+    const scrollRef = React.useRef(null);
 
-    const ingridientsOrder = {
-        buns: ['buns', 'sauces', 'fillers'],
-        sauces: ['sauces', 'fillers', 'buns'],
-        fillers: ['fillers', 'buns', 'sauces']
-    }
+    useEffect(() => {
+        const currents = [refBun.current, refSauce.current, refFillers.current];
+        const watcher = new IntersectionObserver(
+            (currents) => {
+                currents.forEach((e) => {
+                    if (e.target === refBun.current) {
+                        setCurrentTab("buns");
+                    }
+                    if (e.target === refSauce.current) {
+                        setCurrentTab("sauces");
+                    }
+                    if (e.target === refFillers.current) {
+                        setCurrentTab("fillers");
+                    }
+                });
+            },
+            {
+                root: scrollRef.current,
+                rootMargin: "0px 0px -70% 0px",
+            }
+        );
+        currents.forEach((e) => {
+            return watcher.observe(e);
+        });
+    }, []);
+
+    useEffect(() => {
+        if (scroll === "buns") {
+            refBun.current.scrollIntoView({ behavior: "smooth" });
+        }
+        if (scroll === "sauces") {
+            refSauce.current.scrollIntoView({ behavior: "smooth" });
+        }
+        if (scroll === "fillers") {
+            refFillers.current.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [scroll]);
 
     return (
         <section className={styles.container}>
             <p className="text text_type_main-large mt-10">Соберите бургер</p>
             <div className={`${styles.flex} mt-5`}>
-                <Tab value="buns" active={current === 'buns'} onClick={setCurrent}>Булки</Tab>
-                <Tab value="sauces" active={current === 'sauces'} onClick={setCurrent}>Соусы</Tab>
-                <Tab value="fillers" active={current === 'fillers'} onClick={setCurrent}>Начинки</Tab>
+                <Tab value="buns" active={currentTab === 'buns'} onClick={scrollTo}>Булки</Tab>
+                <Tab value="sauces" active={currentTab === 'sauces'} onClick={scrollTo}>Соусы</Tab>
+                <Tab value="fillers" active={currentTab === 'fillers'} onClick={scrollTo}>Начинки</Tab>
             </div>
-            <div className={styles.ingredient_container}>
-                {ingridientsOrder[current].map((e) => {
-                    return(
-                        <section key={e.toString()}>
-                            {allIngridients[e]}
-                        </section>
-                    )
-                })}
+            <div className={styles.ingredient_container} ref={scrollRef}>
+                <p className="text text_type_main-medium mt-10" ref={refBun}>Булки</p>
+                <section className={`${styles.ingridients} mt-6 ml-4 mr-4`}>
+                    {bunsData.map(item => <Ingredients item={item} handleClick={openModal} key={item._id} type={'bun'}/>)}
+                </section>
+                <p className="text text_type_main-medium mt-10" ref={refSauce}>Соусы</p>
+                <section className={`${styles.ingridients} mt-6 ml-4 mr-4`}>
+                    {saucesData.map(item => <Ingredients item={item} handleClick={openModal} key={item._id} type={'sauce'}/>)}
+                </section>
+                <p className="text text_type_main-medium mt-10" ref={refFillers}>Начинки</p>
+                <section className={`${styles.ingridients} mt-6 ml-4 mr-4`}>
+                    {fillersData.map(item => <Ingredients item={item} handleClick={openModal} key={item._id} type={'fillers'}/>)}
+                </section>
             </div>
         </section>
     );
