@@ -1,7 +1,11 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import React, {useCallback, useMemo, useRef} from "react";
 import styles from './burger-constructor.module.css'
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {burgerConstructorPropType} from "../../utils/prop-types";
+import {
+    bunIngredient,
+    includingIngredients,
+    ingredientItem,
+} from "../../utils/prop-types";
 import {useDispatch, useSelector} from "react-redux";
 import {setIsOpen, setModalHeader, setModalType} from "../../services/detailsSlice";
 import {moveCardSlice, removeIngredient, addIngredient, replaceBun} from "../../services/constructorSlice";
@@ -90,8 +94,7 @@ function IncludingIngredients({ burgersData, cart, handleCart, dispatch }) {
     )
 }
 
-function BunIngredient({ burgersData, position, type, bunInCartId }) {
-    const [ ingredient ] = useMemo(() => burgersData.filter(e => e._id.includes(bunInCartId)), [bunInCartId])
+function BunIngredient({ ingredient, position, type }) {
 
     return (
         <ConstructorElement
@@ -108,9 +111,10 @@ function BunIngredient({ burgersData, position, type, bunInCartId }) {
 function BurgerConstructor() {
     const burgersData = useSelector(state => state.ingredients.burgersData);
     const cart = useSelector(state => state.constructorCart.ingredientsId);
-    const dispatch = useDispatch();
     const bunInCartId = useSelector(state => state.constructorCart.bunId);
+    const [ bunIngredient ] = useMemo(() => burgersData.filter(e => e._id.includes(bunInCartId)), [bunInCartId])
     const ref = useRef(null)
+    const dispatch = useDispatch();
 
     const totalPrice = useMemo(() => {
         let tempTotal = 0;
@@ -152,9 +156,9 @@ function BurgerConstructor() {
     return (
         <section className={`${styles.container} ml-10`} ref={ref}>
             <div className={`${styles.constructor} mt-25 ml-4 mr-4`}>
-                <BunIngredient bunInCartId={bunInCartId} burgersData={burgersData} position=' (верх)' type='top'/>
+                <BunIngredient ingredient={bunIngredient} position=' (верх)' type='top'/>
                 <IncludingIngredients burgersData={burgersData} cart={cart} handleCart={handleCart} dispatch={dispatch}/>
-                <BunIngredient bunInCartId={bunInCartId} burgersData={burgersData} position=' (низ)' type='bottom'/>
+                <BunIngredient ingredient={bunIngredient} position=' (низ)' type='bottom'/>
             </div>
             <div className={`${styles.orderContainer} mt-10 mr-4`}>
                 <div className={`${styles.price} mr-10`}>
@@ -167,6 +171,8 @@ function BurgerConstructor() {
     );
 }
 
-BurgerConstructor.propTypes = { ...burgerConstructorPropType }
+BunIngredient.propTypes = { ...bunIngredient }
+IncludingIngredients.propTypes = { ...includingIngredients }
+IngredientItem.propTypes = { ...ingredientItem }
 
 export default BurgerConstructor

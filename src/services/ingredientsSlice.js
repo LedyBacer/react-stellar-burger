@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {apiAdress} from "../utils/api";
+import {apiGetIng} from "../utils/api";
 
 const ingredientsSlice = createSlice({
     name: 'ingredients',
@@ -10,7 +10,7 @@ const ingredientsSlice = createSlice({
         ingredientLoaded: false
     },
     reducers: {
-        fetchStarted(state, action) {
+        fetchStarted(state) {
             state.ingredientRequest = true;
             state.ingredientFailed = false;
             state.ingredientLoaded = false;
@@ -20,7 +20,7 @@ const ingredientsSlice = createSlice({
             state.burgersData = [...action.payload];
             state.ingredientLoaded = true;
         },
-        fetchError(state, action) {
+        fetchError(state) {
             state.ingredientRequest = false;
             state.ingredientFailed = true;
         }
@@ -30,7 +30,7 @@ const ingredientsSlice = createSlice({
 export function getIngredients() {
     return function(dispatch) {
         dispatch(ingredientsSlice.actions.fetchStarted());
-        fetch(apiAdress)
+        fetch(apiGetIng)
             .then(res => res.json())
             .then(res => {
                 if (res && res.success) {

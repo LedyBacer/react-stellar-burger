@@ -3,7 +3,6 @@ import React from 'react';
 import styles from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import Overlay from "../modal-overlay/modal-overlay";
-import {modalPropType} from "../../utils/prop-types";
 import {removeIngredient, setIsOpen} from "../../services/detailsSlice";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -53,5 +52,3 @@ export default function Modal({ children }) {
         modalRoot
     );
 }
-
-Modal.propTypes = { ...modalPropType }

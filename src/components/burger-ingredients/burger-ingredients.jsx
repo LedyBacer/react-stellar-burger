@@ -5,9 +5,8 @@ import {
     Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css'
-import {burgerIngredientsPropType} from "../../utils/prop-types";
+import {ingredientsPropType} from "../../utils/prop-types";
 import {useDispatch, useSelector} from "react-redux";
-import {getIngredients, setIngredients} from "../../services/ingredientsSlice";
 import {addIngredient, setIsOpen, setModalHeader, setModalType} from "../../services/detailsSlice";
 import {useDrag} from "react-dnd";
 
@@ -129,6 +128,6 @@ function BurgerIngredients() {
     );
 }
 
-BurgerIngredients.propTypes = { ...burgerIngredientsPropType };
+Ingredients.propTypes = { ...ingredientsPropType }
 
 export default BurgerIngredients

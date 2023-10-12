@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {apiAdress} from "../utils/api";
+import {apiOrder} from "../utils/api";
 
 const orderSlice = createSlice({
     name: 'order',
@@ -10,7 +10,7 @@ const orderSlice = createSlice({
         orderReady: false
     },
     reducers: {
-        fetchStarted(state, action) {
+        fetchStarted(state) {
             state.orderRequest = true;
             state.orderErr = false;
             state.orderReady = false;
@@ -20,7 +20,7 @@ const orderSlice = createSlice({
             state.id = action.payload;
             state.orderReady = true;
         },
-        fetchError(state, action) {
+        fetchError(state) {
             state.orderRequest = false;
             state.orderErr = true;
             state.id = "000000";
@@ -36,7 +36,7 @@ export function placeOrder(payload) {
         let tempCart = [bun, bun];
         items.map(e => tempCart.push(e.ingredientId));
 
-        fetch(apiAdress, {
+        fetch(apiOrder, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
