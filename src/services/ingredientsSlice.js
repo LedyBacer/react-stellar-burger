@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {apiGetIng} from "../utils/api";
+import {request} from "../utils/api";
 
 const ingredientsSlice = createSlice({
     name: 'ingredients',
@@ -30,14 +30,9 @@ const ingredientsSlice = createSlice({
 export function getIngredients() {
     return function(dispatch) {
         dispatch(ingredientsSlice.actions.fetchStarted());
-        fetch(apiGetIng)
-            .then(res => res.json())
+        request('/ingredients')
             .then(res => {
-                if (res && res.success) {
-                    dispatch(ingredientsSlice.actions.fetchSuccess(res.data))
-                } else {
-                    dispatch(ingredientsSlice.actions.fetchError())
-                }
+                dispatch(ingredientsSlice.actions.fetchSuccess(res.data))
             })
             .catch(err => {
                 dispatch(ingredientsSlice.actions.fetchError())

@@ -1,5 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {apiOrder} from "../utils/api";
+import {request} from "../utils/api";
+import {clearCart} from "./constructorSlice";
+
 
 const orderSlice = createSlice({
     name: 'order',
@@ -17,8 +19,8 @@ const orderSlice = createSlice({
         },
         fetchSuccess(state, action) {
             state.orderRequest = false;
-            state.id = action.payload;
             state.orderReady = true;
+            state.id = action.payload;
         },
         fetchError(state) {
             state.orderRequest = false;
@@ -36,7 +38,7 @@ export function placeOrder(payload) {
         let tempCart = [bun, bun];
         items.map(e => tempCart.push(e.ingredientId));
 
-        fetch(apiOrder, {
+        request('/orders', {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -45,13 +47,9 @@ export function placeOrder(payload) {
                 ingredients: tempCart
             }),
         })
-            .then(res => res.json())
             .then(res => {
-                if (res && res.success) {
-                    dispatch(orderSlice.actions.fetchSuccess(res.order.number))
-                } else {
-                    dispatch(orderSlice.actions.fetchError())
-                }
+                dispatch(orderSlice.actions.fetchSuccess(res.order.number))
+                dispatch(clearCart())
             })
             .catch(err => {
                 dispatch(orderSlice.actions.fetchError());

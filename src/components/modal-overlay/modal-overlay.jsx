@@ -1,6 +1,5 @@
 import styles from "./modal-overlay.module.css";
 import {modalOverlayPropType} from "../../utils/prop-types";
-import Modal from "../modal/modal";
 
 export default function Overlay({ handleClose }) {
 
@@ -9,4 +8,4 @@ export default function Overlay({ handleClose }) {
     );
 }
 
-Modal.propTypes = { ...modalOverlayPropType }
+Overlay.propTypes = { ...modalOverlayPropType }

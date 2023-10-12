@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef} from "react";
+import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import styles from './burger-constructor.module.css'
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {
@@ -115,6 +115,11 @@ function BurgerConstructor() {
     const [ bunIngredient ] = useMemo(() => burgersData.filter(e => e._id.includes(bunInCartId)), [bunInCartId])
     const ref = useRef(null)
     const dispatch = useDispatch();
+    const [isDisabled, setIsDisabled] = useState(true)
+
+    useEffect(() => {
+        setIsDisabled(bunInCartId === '')
+    }, [bunInCartId]);
 
     const totalPrice = useMemo(() => {
         let tempTotal = 0;
@@ -124,11 +129,13 @@ function BurgerConstructor() {
             tempTotal += ingredient.price
         })
 
-        const [ bunIngredient ] = burgersData.filter(e => e._id.includes(bunInCartId))
-        tempTotal += bunIngredient.price * 2;
+        if (!isDisabled) {
+            const [ bunIngredient ] = burgersData.filter(e => e._id.includes(bunInCartId))
+            tempTotal += bunIngredient.price * 2;
+        }
 
         return tempTotal
-    }, [cart, bunInCartId, burgersData])
+    }, [cart, bunInCartId, burgersData, isDisabled])
 
     const handleOrder = () => {
         dispatch(placeOrder([cart, bunInCartId]));
@@ -156,16 +163,21 @@ function BurgerConstructor() {
     return (
         <section className={`${styles.container} ml-10`} ref={ref}>
             <div className={`${styles.constructor} mt-25 ml-4 mr-4`}>
-                <BunIngredient ingredient={bunIngredient} position=' (верх)' type='top'/>
-                <IncludingIngredients burgersData={burgersData} cart={cart} handleCart={handleCart} dispatch={dispatch}/>
-                <BunIngredient ingredient={bunIngredient} position=' (низ)' type='bottom'/>
+                {!(cart.length === 0 && bunInCartId === '') ?
+                    <>
+                        {!(bunInCartId === '') && <BunIngredient ingredient={bunIngredient} position=' (верх)' type='top'/>}
+                        {!(cart.length === 0) && <IncludingIngredients burgersData={burgersData} cart={cart} handleCart={handleCart} dispatch={dispatch}/>}
+                        {!(bunInCartId === '') && <BunIngredient ingredient={bunIngredient} position=' (низ)' type='bottom'/>}
+                    </>
+                : <p className="text text_type_main-medium mt-10">Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа</p>
+                }
             </div>
             <div className={`${styles.orderContainer} mt-10 mr-4`}>
                 <div className={`${styles.price} mr-10`}>
                     <p className="text text_type_digits-medium mr-2">{totalPrice}</p>
                     <CurrencyIcon type="primary"/>
                 </div>
-                <Button htmlType="button" type="primary" size="medium" onClick={handleOrder}>Оформить заказ</Button>
+                <Button htmlType="button" type="primary" size="medium" onClick={handleOrder} disabled={isDisabled}>Оформить заказ</Button>
             </div>
         </section>
     );

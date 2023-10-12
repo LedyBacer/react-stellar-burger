@@ -19,7 +19,7 @@ export const ingredientItem = {
     ingredient: PropTypes.shape(burgData).isRequired,
     handleCart: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired,
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     moveCard: PropTypes.func.isRequired,
 }
 
@@ -27,7 +27,7 @@ export const includingIngredients = {
     burgersData: PropTypes.arrayOf(PropTypes.shape(burgData)).isRequired,
     cart: PropTypes.arrayOf(PropTypes.shape({
         ingredientId: PropTypes.string.isRequired,
-        cardId: PropTypes.number.isRequired
+        cardId: PropTypes.string.isRequired
     })).isRequired,
     handleCart: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,

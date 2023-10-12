@@ -12,9 +12,6 @@ const detailsSlice = createSlice({
         addIngredient(state, action) {
             state.ingDetails = action.payload;
         },
-        removeIngredient(state) {
-            state.ingDetails = {}
-        },
         setModalType(state, action) {
             state.modalType = action.payload
         },
@@ -23,6 +20,11 @@ const detailsSlice = createSlice({
         },
         setIsOpen(state, action) {
             state.isOpen = action.payload
+            if (!action.payload) {
+                state.ingDetails = {}
+                state.modalType = ''
+                state.modalHeader = ''
+            }
         }
     },
 })

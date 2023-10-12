@@ -3,32 +3,22 @@ import {createSlice} from "@reduxjs/toolkit";
 const constructorSlice = createSlice({
     name: 'constructorCart',
     initialState: {
-        ingredientsId: [{
-            ingredientId: "643d69a5c3f7b9001cfa0945",
-            cardId: 0
-        }, {
-            ingredientId: "643d69a5c3f7b9001cfa093f",
-            cardId: 1
-        }, {
-            ingredientId: "643d69a5c3f7b9001cfa0949",
-            cardId: 2
-        }, {
-            ingredientId: "643d69a5c3f7b9001cfa0945",
-            cardId: 3
-        }],
-        bunId: '643d69a5c3f7b9001cfa093c',
-        currentMaxIdCounter: 4
+        ingredientsId: [],
+        bunId: '',
     },
     reducers: {
         addIngredient(state, action) {
             state.ingredientsId.push({
                 ingredientId: action.payload,
-                cardId: state.currentMaxIdCounter
+                cardId: crypto.randomUUID()
             });
-            state.currentMaxIdCounter += 1;
         },
         removeIngredient(state, action) {
             state.ingredientsId.splice(action.payload, 1)
+        },
+        clearCart(state) {
+            state.ingredientsId = []
+            state.bunId = ''
         },
         replaceBun(state, action) {
             state.bunId = action.payload;
@@ -43,5 +33,5 @@ const constructorSlice = createSlice({
     },
 })
 
-export const { addIngredient, removeIngredient, moveCardSlice, replaceBun } = constructorSlice.actions
+export const { addIngredient, removeIngredient, moveCardSlice, replaceBun, clearCart } = constructorSlice.actions
 export default constructorSlice.reducer
