@@ -167,8 +167,8 @@ function BurgerConstructor() {
     dropNewBun(dropNewItem(ref))
 
     return (
-        <section className={`${styles.container} ml-10`} ref={ref}>
-            <div className={`${styles.constructor} mt-25 ml-4 mr-4`}>
+        <section className={`${styles.container} ml-10`}>
+            <div className={`${styles.constructor} mt-25 ml-4 mr-4`} ref={ref}>
                 {!(cart.length === 0 && isDisabled) ?
                         <>
                             {!isDisabled && <BunIngredient ingredient={bunIngredient} position=' (верх)' type='top'/>}

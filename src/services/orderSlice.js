@@ -9,7 +9,7 @@ const orderSlice = createSlice({
         id: "000000",
         orderErr: false,
         orderRequest: false,
-        orderReady: false
+        orderReady: true,
     },
     reducers: {
         fetchStarted(state) {
