@@ -17,16 +17,18 @@ function Ingredients({item, handleClick, type}) {
     const count = useMemo(() => cart.filter(e => e.ingredientId === item._id).length, [cart]);
     const isItemInCart = useMemo(() => cart.some(e => e.ingredientId === item._id), [cart]);
 
-    const [, drag] = useDrag({
+    const [{ isDragging }, drag] = useDrag({
         type: type,
         item: {id: item._id},
         collect: monitor => ({
-            isDrag: monitor.isDragging()
+            isDragging: monitor.isDragging()
         })
     });
 
+    const opacity = isDragging ? 0.4 : 1
+
     return (
-        <div ref={drag} className={styles.ingridient} onClick={handleClick} data-id={item._id}>
+        <div ref={drag} className={styles.ingridient} onClick={handleClick} data-id={item._id} style={{opacity}}>
             {isItemInCart && <Counter count={count} size="default" extraClass="m-1" />}
             {bunId === item._id && <Counter count={1} size="default" extraClass="m-1" />}
             <img alt={item.name} src={item.image} className={`${styles.ingridient_image} ml-4`} data-id={item._id}/>

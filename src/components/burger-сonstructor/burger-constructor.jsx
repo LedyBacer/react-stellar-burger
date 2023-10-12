@@ -148,14 +148,20 @@ function BurgerConstructor() {
     const handleDropNewItem = (item) => dispatch(addIngredient(item.id));
     const handleDropNewBun = (item) => dispatch(replaceBun(item.id));
 
-    const [, dropNewItem] = useDrop({
+    const [{ isActiveIngredients }, dropNewItem] = useDrop({
         accept: ["sauce", "fillers"],
-        drop: (item) => handleDropNewItem(item)
+        drop: (item) => handleDropNewItem(item),
+        collect: (monitor) => ({
+            isActiveIngredients: monitor.canDrop() && monitor.isOver(),
+        }),
     })
 
-    const [, dropNewBun] = useDrop({
+    const [{ isActiveBun }, dropNewBun] = useDrop({
         accept: 'bun',
-        drop: (item) => handleDropNewBun(item)
+        drop: (item) => handleDropNewBun(item),
+        collect: (monitor) => ({
+            isActiveBun: monitor.canDrop() && monitor.isOver(),
+        }),
     })
 
     dropNewBun(dropNewItem(ref))
@@ -164,12 +170,14 @@ function BurgerConstructor() {
         <section className={`${styles.container} ml-10`} ref={ref}>
             <div className={`${styles.constructor} mt-25 ml-4 mr-4`}>
                 {!(cart.length === 0 && isDisabled) ?
-                    <>
-                        {!isDisabled && <BunIngredient ingredient={bunIngredient} position=' (верх)' type='top'/>}
-                        {!(cart.length === 0) && <IncludingIngredients burgersData={burgersData} cart={cart} handleCart={handleCart} dispatch={dispatch}/>}
-                        {!isDisabled && <BunIngredient ingredient={bunIngredient} position=' (низ)' type='bottom'/>}
-                    </>
-                : <p className="text text_type_main-medium mt-10">Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа</p>
+                        <>
+                            {!isDisabled && <BunIngredient ingredient={bunIngredient} position=' (верх)' type='top'/>}
+                            {!(cart.length === 0) && <IncludingIngredients burgersData={burgersData} cart={cart} handleCart={handleCart} dispatch={dispatch}/>}
+                            {!isDisabled && <BunIngredient ingredient={bunIngredient} position=' (низ)' type='bottom'/>}
+                        </>
+                    : (isActiveBun || isActiveIngredients) ?
+                        <div className={`${styles.drop_box} ${styles.drop_box_hover}`}><p className="text text_type_main-medium">Да, сюда :)</p></div>
+                    : <div className={styles.drop_box}><p className="text text_type_main-medium">Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа</p></div>
                 }
             </div>
             <div className={`${styles.orderContainer} mt-10 mr-4`}>
