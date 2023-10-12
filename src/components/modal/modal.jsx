@@ -14,7 +14,6 @@ export default function Modal({ children }) {
     const isLoading = useSelector(state => state.order.orderReady);
 
     const handleClose = () => {
-        console.log(isLoading)
         if (isLoading) {
             dispatch(setIsOpen(false));
         }
