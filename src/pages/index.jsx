@@ -1,17 +1,17 @@
-import styles from "./app.module.css";
-import AppHeader from "../app-header/app-header";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import BurgerConstructor from "../burger-сonstructor/burger-constructor";
+import styles from "./indedx.module.css";
+import AppHeader from "../components/app-header/app-header";
+import BurgerIngredients from "../components/burger-ingredients/burger-ingredients";
+import BurgerConstructor from "../components/burger-сonstructor/burger-constructor";
 import React, {useEffect} from 'react';
-import Modal from "../modal/modal";
-import {OrderDetails} from "../order-details/order-details";
-import {IngredientsDetails} from "../ingredient-details/ingredient-details";
-import {getIngredients} from "../../services/ingredientsSlice";
+import Modal from "../components/modal/modal";
+import {OrderDetails} from "../components/order-details/order-details";
+import {IngredientsDetails} from "../components/ingredient-details/ingredient-details";
+import {getIngredients} from "../services/ingredientsSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import { DndProvider } from 'react-dnd'
 
-function App() {
+function HomePage() {
     const dispatch = useDispatch();
     const isLoaded = useSelector(state => state.ingredients.ingredientLoaded);
     const isModalOpen = useSelector(state => state.details.isOpen);
@@ -22,10 +22,10 @@ function App() {
     }, [])
 
     return (
-        <>
+        <div className={styles.index}>
+            <AppHeader />
             {isLoaded ?
-                <div className={styles.app}>
-                    <AppHeader />
+                <>
                     <DndProvider backend={HTML5Backend}>
                         <main className={styles.main}>
                             <BurgerIngredients />
@@ -41,10 +41,14 @@ function App() {
                             )}
                         </Modal>
                     }
+                </>
+            :
+                <div className={styles.center}>
+                    <p className="text text_type_main-medium text_color_inactive">Загрузка..</p>
                 </div>
-            : <p>Загрузка...</p>}
-        </>
+            }
+        </div>
     );
 }
 
-export default App;
+export default HomePage;
