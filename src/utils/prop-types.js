@@ -48,3 +48,8 @@ export const ingredientsPropType = {
 export const modalOverlayPropType = {
     handleClose: PropTypes.func.isRequired
 }
+
+export const customInputPropType = {
+    onChange: PropTypes.func.isRequired,
+    value: PropTypes.string.isRequired
+}

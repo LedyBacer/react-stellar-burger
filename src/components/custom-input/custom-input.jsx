@@ -1,5 +1,6 @@
 import {Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {useEffect, useRef} from "react";
+import {customInputPropType} from "../../utils/prop-types";
 
 export function CustomNameInput({onChange, value}) {
     const inputNameRef = useRef(null);
@@ -30,3 +31,5 @@ export function CustomNameInput({onChange, value}) {
         />
     )
 }
+
+CustomNameInput.propTypes = { ...customInputPropType }
