@@ -5,11 +5,6 @@ export function setCookie(name, value, props) {
         const d = new Date();
         d.setTime(d.getTime() + exp * 1000);
         exp = props.expires = d;
-    } else {
-        const payload = JSON.parse(atob(value.split('.')[1]));
-        const d = new Date();
-        d.setTime(d.getTime() + payload.exp * 1000)
-        exp = props.expires = d;
     }
     if (exp && exp.toUTCString) {
         props.expires = exp.toUTCString();
