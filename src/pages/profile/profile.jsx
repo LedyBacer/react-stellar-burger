@@ -1,16 +1,44 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from "./profile.module.css";
 import AppHeader from "../../components/app-header/app-header";
-import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import {updateUserInfoRequest} from "../../services/authSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {deepEqual} from "../../utils/utils";
+import {CustomNameInput} from "../../components/custom-input/custom-input";
+import {ProfileNavbar} from "../../components/profile-nav/profile-nav";
 
 export default function Profile() {
-    const [value, setValue] = React.useState('')
-    const [disable, setDisable] = React.useState(true)
-    const onChange = e => {
-        setValue(e.target.value)
+    const dispatch = useDispatch()
+    const userEmail = useSelector(state => state.auth.userEmail)
+    const userName = useSelector(state => state.auth.userName);
+    const isError = useSelector(state => state.auth.requestErr);
+    const isRequestInProcess = useSelector(state => state.auth.requestInProcess);
+    const accessToken = useSelector(state => state.auth.accessToken)
+    const [initFormState, setInitFormState] = React.useState({email: userEmail, password: '', name: userName});
+    const [form, setValueForm] = React.useState(initFormState);
+    const [submitState, handleSubmitState] = React.useState(true)
+
+    const onFormChange = e => {
+        setValueForm({ ...form, [e.target.name]: e.target.value });
     }
-    const onIconClick = () => {
-        setDisable(!disable);
+
+    useEffect(() => {
+        handleSubmitState(deepEqual(form, initFormState))
+    }, [form, initFormState]);
+
+    useEffect(() => {
+        setInitFormState({email: userEmail, password: '', name: userName})
+    }, [userEmail, userName]);
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        dispatch(updateUserInfoRequest({...form, accessToken}));
+    }
+
+    const onReset = e => {
+        e.preventDefault();
+        setValueForm(initFormState);
     }
 
     return (
@@ -18,45 +46,30 @@ export default function Profile() {
             <AppHeader />
             <div className={styles.center}>
                 <div className={styles.main}>
-                    <div className={`${styles.menu} ml-5`}>
-                        <nav>
-                            <ul className={styles.reset_nav}>
-                                <li className='pt-4 pb-4'><a className='text text_type_main-medium'>Профиль</a></li>
-                                <li className='pt-4 pb-4'><a className='text text_type_main-medium text_color_inactive'>История заказов</a></li>
-                                <li className='pt-4 pb-4'><a className='text text_type_main-medium text_color_inactive'>Выход</a></li>
-                            </ul>
-                        </nav>
-                        <p className={`${styles.text_dark_grey_secondary_text} text text_type_main-small text_color_inactive mt-20`}>В этом разделе вы можете изменить свои персональные данные</p>
-                    </div>
-                    <div className={styles.inputs}>
-                        <Input
-                            type={'text'}
-                            placeholder={'Имя'}
-                            onChange={onChange}
-                            value={value}
-                            name={'name'}
-                            error={false}
-                            size={'default'}
-                            icon={'EditIcon'}
-                            onIconClick={onIconClick}
-                            disabled={disable}
-                        />
+                    <ProfileNavbar />
+                    <form className={styles.inputs} onSubmit={onSubmit} onReset={onReset}>
+                        <CustomNameInput onChange={onFormChange} value={form.name}/>
                         <EmailInput
-                            onChange={onChange}
+                            onChange={onFormChange}
                             placeholder={'Логин'}
-                            value={value}
+                            value={form.email}
                             name={'email'}
                             isIcon={true}
                             extraClass="mt-6"
                         />
                         <PasswordInput
-                            onChange={onChange}
-                            value={value}
+                            onChange={onFormChange}
+                            value={form.password}
                             name={'password'}
                             icon="EditIcon"
                             extraClass="mt-6"
                         />
-                    </div>
+                        <div className={`${styles.buttons} mt-6`}>
+                            <Button htmlType="reset" type="secondary" size="medium" extraClass={styles.no_padding} disabled={isRequestInProcess || submitState}>Отмена</Button>
+                            <Button htmlType="submit" type="primary" size="large" disabled={isRequestInProcess || submitState}>Сохранить</Button>
+                        </div>
+                        {isError ? <p className={`${styles.error} text text_type_main-small mt-2`}>Произошла ошибка! Попробуйте ещё раз.</p> : <></>}
+                    </form>
                 </div>
             </div>
         </div>

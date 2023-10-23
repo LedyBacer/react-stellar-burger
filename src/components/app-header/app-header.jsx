@@ -1,17 +1,50 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Logo, BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './app-header.module.css'
+import {useLocation, useNavigate} from "react-router-dom";
+import {isContainRoute} from "../../utils/breadcrumbs";
 
 function AppHeader() {
+    const navigate = useNavigate()
+    const url = window.location.href;
+
+
+    const activeArgs = {text: '', icon: 'primary'}
+    const secondaryArgs = {text: 'text_color_inactive', icon: 'secondary'}
+    const initTabState = {
+        home: secondaryArgs,
+        profile: secondaryArgs
+    }
+    const [activeTab, setActiveTab] = useState(initTabState)
+    const onClickProfile = () => {
+        navigate('/profile')
+    }
+
+    const onClickConstructor = () => {
+        navigate('/')
+    }
+
+    const onClickList = () => {
+        //wip
+    }
+
+    useEffect(() => {
+        if (url.endsWith('/')) {
+            setActiveTab({...initTabState, home: activeArgs})
+        } else if (url.includes('/profile')) {
+            setActiveTab({...initTabState, profile: activeArgs})
+        }
+    }, [url]);
+
     return (
         <header className={styles.header}>
             <div className={styles['content-box']}>
                 <div className={styles.tabs}>
-                    <div className={`${styles.constructor} pl-5 pr-5 mt-4 mb-4`}>
-                        <BurgerIcon type="primary"/>
-                        <p className="text text_type_main-default ml-2">Конструктор</p>
+                    <div className={`${styles.constructor} pl-5 pr-5 mt-4 mb-4`} onClick={onClickConstructor}>
+                        <BurgerIcon type={activeTab.home.icon}/>
+                        <p className={`text text_type_main-default ml-2 ${activeTab.home.text}`}>Конструктор</p>
                     </div>
-                    <div className={`${styles['order-list']} pl-5 pr-5 mt-4 mb-4 ml-2`}>
+                    <div className={`${styles['order-list']} pl-5 pr-5 mt-4 mb-4 ml-2`} onClick={onClickList}>
                         <ListIcon type="secondary"/>
                         <p className="text text_type_main-default text_color_inactive ml-2">Лента заказов</p>
                     </div>
@@ -19,9 +52,9 @@ function AppHeader() {
                 <div className={styles.logo}>
                     <Logo/>
                 </div>
-                <div className={`${styles.login} pl-5 pr-5 mt-4 mb-4`}>
-                    <ProfileIcon type="secondary"/>
-                    <p className="text text_type_main-default text_color_inactive ml-2">Личный кабинет</p>
+                <div className={`${styles.login} pl-5 pr-5 mt-4 mb-4`} onClick={onClickProfile}>
+                    <ProfileIcon type={activeTab.profile.icon}/>
+                    <p className={`text text_type_main-default ml-2 ${activeTab.profile.text}`}>Личный кабинет</p>
                 </div>
             </div>
         </header>

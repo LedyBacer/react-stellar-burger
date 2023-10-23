@@ -34,14 +34,15 @@ export function placeOrder(payload) {
     return function(dispatch) {
         dispatch(orderSlice.actions.fetchStarted());
 
-        const [ items, bun ] = payload;
+        const [ items, bun, authorization ] = payload;
         let tempCart = [bun, bun];
         items.map(e => tempCart.push(e.ingredientId));
 
         request('/orders', {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json;charset=utf-8'
+                'Content-Type': 'application/json;charset=utf-8',
+                Authorization: 'Bearer ' + authorization
             },
             body: JSON.stringify({
                 ingredients: tempCart
@@ -58,5 +59,4 @@ export function placeOrder(payload) {
     }
 }
 
-export const { setIngredients, setItem } = orderSlice.actions
 export default orderSlice.reducer

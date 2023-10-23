@@ -10,22 +10,38 @@ import {getIngredients} from "../services/ingredientsSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import { DndProvider } from 'react-dnd'
+import {Loading} from "../components/loading/loading";
+import {useParams} from "react-router-dom";
+import {addIngredient, setIsOpen, setModalHeader, setModalType} from "../services/detailsSlice";
 
 function HomePage() {
     const dispatch = useDispatch();
-    const isLoaded = useSelector(state => state.ingredients.ingredientLoaded);
+    // const isLoaded = useSelector(state => state.ingredients.ingredientLoaded);
     const isModalOpen = useSelector(state => state.details.isOpen);
     const modalType = useSelector(state => state.details.modalType);
 
+    const { id: ingredientID }  = useParams();
+    const burgersData = useSelector(state => state.ingredients.burgersData);
+
     useEffect(() => {
-        dispatch(getIngredients())
+        dispatch(setIsOpen(false))
     }, [])
+
+    useEffect(() => {
+        if (ingredientID) {
+            const [ tempIngData ] = burgersData.filter(item => item._id.includes(ingredientID))
+            dispatch(addIngredient(tempIngData));
+            dispatch(setModalType(''));
+            dispatch(setModalHeader('Детали ингредиента'));
+            dispatch(setIsOpen(true));
+        }
+    }, [ingredientID])
 
     return (
         <div className={styles.index}>
             <AppHeader />
-            {isLoaded ?
-                <>
+            {/*{isLoaded ?*/}
+            {/*    <>*/}
                     <DndProvider backend={HTML5Backend}>
                         <main className={styles.main}>
                             <BurgerIngredients />
@@ -41,12 +57,10 @@ function HomePage() {
                             )}
                         </Modal>
                     }
-                </>
-            :
-                <div className={styles.center}>
-                    <p className="text text_type_main-medium text_color_inactive">Загрузка..</p>
-                </div>
-            }
+            {/*    </>*/}
+            {/*:*/}
+            {/*    <Loading />*/}
+            {/*}*/}
         </div>
     );
 }
