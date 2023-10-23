@@ -19,6 +19,14 @@ const saveTokenToCookie = (res) => {
     return res;
 }
 
+export function isTokenExpired(token) {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const exp = payload.exp * 1000;
+    const now = Date.now();
+    console.log(exp, now)
+    return exp < now;
+}
+
 export function request(endpoint, options) {
     return fetch(`${BASE_URL}${endpoint}`, options).then(checkResponse).then(checkSuccess).then(saveTokenToCookie)
 }

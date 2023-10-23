@@ -2,11 +2,12 @@ import React, {useEffect} from 'react';
 import styles from "./profile.module.css";
 import AppHeader from "../../components/app-header/app-header";
 import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {updateUserInfoRequest} from "../../services/authSlice";
+import {refreshTokenRequest, updateUserInfoRequest} from "../../services/authSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {deepEqual} from "../../utils/utils";
 import {CustomNameInput} from "../../components/custom-input/custom-input";
 import {ProfileNavbar} from "../../components/profile-nav/profile-nav";
+import {isTokenExpired} from "../../utils/api";
 
 export default function Profile() {
     const dispatch = useDispatch()
@@ -33,6 +34,9 @@ export default function Profile() {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        if (isTokenExpired(accessToken)) {
+            dispatch(refreshTokenRequest());
+        }
         dispatch(updateUserInfoRequest({...form, accessToken}));
     }
 

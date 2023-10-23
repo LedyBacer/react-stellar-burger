@@ -12,6 +12,8 @@ import {moveCardSlice, removeIngredient, addIngredient, replaceBun} from "../../
 import {placeOrder} from "../../services/orderSlice";
 import {useDrag, useDrop} from "react-dnd";
 import {useNavigate} from "react-router-dom";
+import {isTokenExpired} from "../../utils/api";
+import {refreshTokenRequest, updateUserInfoRequest} from "../../services/authSlice";
 
 function IngredientItem({ingredient, handleCart, index, id, moveCard}) {
     const ref = useRef(null)
@@ -143,6 +145,9 @@ function BurgerConstructor() {
 
     const handleOrder = () => {
         if (isLogin) {
+            if (isTokenExpired(accessToken)) {
+                dispatch(refreshTokenRequest());
+            }
             dispatch(placeOrder([cart, bunInCartId, accessToken]));
             dispatch(setModalType('order'));
             dispatch(setModalHeader(''));
