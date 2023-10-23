@@ -5,12 +5,9 @@ import AppHeader from "../../components/app-header/app-header";
 export default function NotFound404() {
 
     return (
-        <div className={styles.index}>
-            <AppHeader />
-            <div className={styles.main}>
-                <p className="text text_type_digits-large text_color_inactive">404</p>
-                <p className="text text_type_main-medium mt-4">Здесь ничего нет :(</p>
-            </div>
+        <div className={styles.main}>
+            <p className="text text_type_digits-large text_color_inactive">404</p>
+            <p className="text text_type_main-medium mt-4">Здесь ничего нет :(</p>
         </div>
     );
 };

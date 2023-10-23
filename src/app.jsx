@@ -12,10 +12,10 @@ import {getUserInfoRequest, refreshTokenRequest} from "./services/authSlice";
 import {getCookie} from "./utils/cookie";
 import {ProtectedRoute} from "./components/protected-route/protected-route";
 import {Loading} from "./components/loading/loading";
-import Ingredients from "./pages/ingredients/ingredients";
 import ChosenIngredient from "./pages/ingredients/ingredients";
 import {getIngredients} from "./services/ingredientsSlice";
 import {Orders} from "./pages/orders/orders";
+import {HeaderRoute} from "./components/header-route/header-route";
 
 export default function App() {
     const dispatch = useDispatch()
@@ -51,16 +51,18 @@ export default function App() {
             {initLoad || !ingredientLoaded ? <Loading /> :
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/" element={<HomePage />}/>
-                        <Route path="/login" element={<ProtectedRoute element={<Login />} />}/>
-                        <Route path="/register" element={<ProtectedRoute element={<Register />} />}/>
-                        <Route path="/forgot-password" element={<ProtectedRoute element={<ForgotPassword />} />}/>
-                        <Route path="/reset-password" element={<ProtectedRoute element={<ResetPassword />} neededPassReset={true}/>}/>
-                        <Route path="/profile" element={<ProtectedRoute element={<Profile />} forLoggedUser={true} />}/>
-                        <Route path="/profile/orders" element={<ProtectedRoute element={<Orders />} forLoggedUser={true} />}/>
-                        <Route path="/profile/orders/:id" element={<ProtectedRoute element={<p>wip</p>} forLoggedUser={true} />}/>
-                        <Route path="/ingredients/:id" element={<ChosenIngredient />}/>
-                        <Route path="*" element={<NotFound404 />} />
+                        <Route element={<HeaderRoute />}>
+                            <Route path="/" element={<HomePage />}/>
+                            <Route path="/login" element={<ProtectedRoute element={<Login />} />}/>
+                            <Route path="/register" element={<ProtectedRoute element={<Register />} />}/>
+                            <Route path="/forgot-password" element={<ProtectedRoute element={<ForgotPassword />} />}/>
+                            <Route path="/reset-password" element={<ProtectedRoute element={<ResetPassword />} neededPassReset={true}/>}/>
+                            <Route path="/profile" element={<ProtectedRoute element={<Profile />} forLoggedUser={true} />}/>
+                            <Route path="/profile/orders" element={<ProtectedRoute element={<Orders />} forLoggedUser={true} />}/>
+                            <Route path="/profile/orders/:id" element={<ProtectedRoute element={<p>wip</p>} forLoggedUser={true} />}/>
+                            <Route path="/ingredients/:id" element={<ChosenIngredient />}/>
+                            <Route path="*" element={<NotFound404 />} />
+                        </Route>
                     </Routes>
                 </BrowserRouter>
             }

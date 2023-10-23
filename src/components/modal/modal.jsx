@@ -18,7 +18,7 @@ export default function Modal({ children }) {
     const handleClose = () => {
         if (isLoading) {
             dispatch(setIsOpen(false));
-            navigate('/');
+            navigate(-1);
         }
     };
 

@@ -38,30 +38,23 @@ function HomePage() {
     }, [ingredientID])
 
     return (
-        <div className={styles.index}>
-            <AppHeader />
-            {/*{isLoaded ?*/}
-            {/*    <>*/}
-                    <DndProvider backend={HTML5Backend}>
-                        <main className={styles.main}>
-                            <BurgerIngredients />
-                            <BurgerConstructor />
-                        </main>
-                    </DndProvider>
-                    {isModalOpen &&
-                        <Modal>
-                            {modalType === "order" ? (
-                                <OrderDetails />
-                            ) : (
-                                <IngredientsDetails />
-                            )}
-                        </Modal>
-                    }
-            {/*    </>*/}
-            {/*:*/}
-            {/*    <Loading />*/}
-            {/*}*/}
-        </div>
+        <>
+            <DndProvider backend={HTML5Backend}>
+                <main className={styles.main}>
+                    <BurgerIngredients />
+                    <BurgerConstructor />
+                </main>
+            </DndProvider>
+            {isModalOpen &&
+                <Modal>
+                    {modalType === "order" ? (
+                        <OrderDetails />
+                    ) : (
+                        <IngredientsDetails />
+                    )}
+                </Modal>
+            }
+        </>
     );
 }
 

@@ -1,11 +1,13 @@
 import styles from "./ingredient-details.module.css";
 import {useSelector} from "react-redux";
+import React from "react";
 
-export function IngredientsDetails() {
+export function IngredientsDetails({standalone}) {
     const ingredientData = useSelector(state => state.details.ingDetails);
 
     return (
         <div className={styles.box}>
+            {standalone ? <p className="text text_type_main-large mt-10">Детали ингредиента</p> : <></>}
             <img src={ingredientData.image_large} className="pb-4" alt={ingredientData.name} />
             <p className="text text_type_main-medium pb-8">{ingredientData.name}</p>
             <div className={`${styles.row} text text_type_main-default text_color_inactive`}>

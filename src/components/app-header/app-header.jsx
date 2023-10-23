@@ -49,8 +49,8 @@ function AppHeader() {
                         <p className="text text_type_main-default text_color_inactive ml-2">Лента заказов</p>
                     </div>
                 </div>
-                <div className={styles.logo}>
-                    <Logo/>
+                <div className={styles.logo} onClick={onClickConstructor}>
+                    <Logo />
                 </div>
                 <div className={`${styles.login} pl-5 pr-5 mt-4 mb-4`} onClick={onClickProfile}>
                     <ProfileIcon type={activeTab.profile.icon}/>
