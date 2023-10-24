@@ -9,7 +9,7 @@ import {ingredientsPropType} from "../../utils/prop-types";
 import {useDispatch, useSelector} from "react-redux";
 import {addIngredient, setIsOpen, setModalHeader, setModalType} from "../../services/detailsSlice";
 import {useDrag} from "react-dnd";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 function Ingredients({item, handleClick, type}) {
     const bunId = useSelector(state => state.constructorCart.bunId);
@@ -47,6 +47,8 @@ function BurgerIngredients() {
     const dispatch = useDispatch();
     const burgersData = useSelector(state => state.ingredients.burgersData);
 
+    const location = useLocation();
+
     const [currentTab, setCurrentTab] = React.useState('buns');
     const [scroll, scrollTo] = React.useState('');
 
@@ -66,7 +68,7 @@ function BurgerIngredients() {
         // dispatch(setModalType(''));
         // dispatch(setModalHeader('Детали ингредиента'));
         // dispatch(setIsOpen(true));
-        navigate(`/ingredients/${selectedProductId}`, { state: {modal: true} });
+        navigate(`/ingredients/${selectedProductId}`, { state: {background: location} });
     }
 
     useEffect(() => {

@@ -1,5 +1,4 @@
 import styles from "./login.module.css";
-import AppHeader from "../../components/app-header/app-header";
 import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";

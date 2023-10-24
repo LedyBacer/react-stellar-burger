@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {Routes, Route, useLocation} from 'react-router-dom';
 import HomePage from "./pages";
 import NotFound404 from "./pages/not-found/not-found";
 import Login from "./pages/login/login";
@@ -10,12 +10,13 @@ import Profile from "./pages/profile/profile";
 import {useDispatch, useSelector} from "react-redux";
 import {getUserInfoRequest, refreshTokenRequest} from "./services/authSlice";
 import {getCookie} from "./utils/cookie";
-import {ProtectedRoute} from "./components/protected-route/protected-route";
+import ProtectedRoute from "./components/protected-route/protected-route";
 import {Loading} from "./components/loading/loading";
-import ChosenIngredient from "./pages/ingredients/ingredients";
 import {getIngredients} from "./services/ingredientsSlice";
 import {Orders} from "./pages/orders/orders";
 import {HeaderRoute} from "./components/header-route/header-route";
+import {IngredientsDetails} from "./pages/ingredient-details/ingredient-details";
+import Modal from "./components/modal/modal";
 
 export default function App() {
     const dispatch = useDispatch()
@@ -23,6 +24,9 @@ export default function App() {
     const isLogin = useSelector(state => state.auth.isLogin)
     const ingredientLoaded = useSelector(state => state.ingredients.ingredientLoaded);
     const [initLoad, handleInitLoad] = useState(true)
+
+    const location = useLocation();
+    const background = location.state?.background
 
     useEffect(() => {
         dispatch(getIngredients())
@@ -49,22 +53,31 @@ export default function App() {
     return (
         <>
             {initLoad || !ingredientLoaded ? <Loading /> :
-                <BrowserRouter>
-                    <Routes>
+                <>
+                    <Routes location={background || location}>
                         <Route element={<HeaderRoute />}>
                             <Route path="/" element={<HomePage />}/>
-                            <Route path="/login" element={<ProtectedRoute element={<Login />} />}/>
-                            <Route path="/register" element={<ProtectedRoute element={<Register />} />}/>
-                            <Route path="/forgot-password" element={<ProtectedRoute element={<ForgotPassword />} />}/>
-                            <Route path="/reset-password" element={<ProtectedRoute element={<ResetPassword />} neededPassReset={true}/>}/>
-                            <Route path="/profile" element={<ProtectedRoute element={<Profile />} forLoggedUser={true} />}/>
-                            <Route path="/profile/orders" element={<ProtectedRoute element={<Orders />} forLoggedUser={true} />}/>
-                            <Route path="/profile/orders/:id" element={<ProtectedRoute element={<p>wip</p>} forLoggedUser={true} />}/>
-                            <Route path="/ingredients/:id" element={<ChosenIngredient />}/>
+                            <Route path="/login" element={<ProtectedRoute element={<Login />} anonymous={true}/>}/>
+                            <Route path="/register" element={<ProtectedRoute element={<Register />} anonymous={true}/>}/>
+                            <Route path="/forgot-password" element={<ProtectedRoute element={<ForgotPassword />} anonymous={true}/>}/>
+                            <Route path="/reset-password" element={<ProtectedRoute element={<ResetPassword />} anonymous={true} neededPassReset={true}/>}/>
+                            <Route path="/profile" element={<ProtectedRoute element={<Profile />} />}/>
+                            <Route path="/profile/orders" element={<ProtectedRoute element={<Orders />} />}/>
+                            <Route path="/profile/orders/:id" element={<ProtectedRoute element={<p>wip</p>} />}/>
+                            <Route path="/ingredients/:id" element={<IngredientsDetails standalone={true}/>}/>
                             <Route path="*" element={<NotFound404 />} />
                         </Route>
                     </Routes>
-                </BrowserRouter>
+                    {background &&
+                        <Routes>
+                            <Route path="/ingredients/:id" element={
+                                <Modal>
+                                        <IngredientsDetails />
+                                </Modal>
+                            }/>
+                        </Routes>
+                    }
+                </>
             }
         </>
     );

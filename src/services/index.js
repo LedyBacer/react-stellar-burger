@@ -4,6 +4,7 @@ import orderSlice from "./orderSlice";
 import constructorSlice from "./constructorSlice";
 import detailsSlice from "./detailsSlice";
 import authSlice from "./authSlice";
+import modalSlice from "./modalSlice";
 
 export const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
         order: orderSlice,
         constructorCart: constructorSlice,
         details: detailsSlice,
-        auth: authSlice
+        auth: authSlice,
+        modal: modalSlice
     },
     devTools: process.env.NODE_ENV !== 'production'
 })

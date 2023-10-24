@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import styles from "./forgot-password.module.css";
 import AppHeader from "../../components/app-header/app-header";
 import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {forgotPasswordRequest, setRedirection} from "../../services/authSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useForm} from "../../hooks/useForm";
@@ -14,6 +14,7 @@ export default function ForgotPassword() {
     const awaitPassReset = useSelector(state => state.auth.awaitPassReset)
     const isError = useSelector(state => state.auth.requestErr)
     const {values, handleChange} = useForm({email: ''});
+    const location = useLocation();
 
     const clickOnLogin = () => {
         navigate('/login');
@@ -26,7 +27,7 @@ export default function ForgotPassword() {
 
     useEffect(() => {
         if (awaitPassReset) {
-            navigate('/reset-password')
+            navigate('/reset-password', { state: {from: location}})
         }
     }, [awaitPassReset]);
 

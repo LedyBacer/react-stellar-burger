@@ -1,23 +1,28 @@
 import {Navigate, useLocation} from 'react-router-dom';
 import {useSelector} from "react-redux";
-import {useEffect, useState} from "react";
 
-export function ProtectedRoute({ element, forLoggedUser = false, neededPassReset = false}) {
-    const isUserLoaded = useSelector(state => state.auth.isLogin)
-    const awaitPassReset = useSelector(state => state.auth.awaitPassReset)
+export default function ProtectedRoute({ element, anonymous = false, neededPassReset = false }) {
+    const isLoggedIn = useSelector((store) => store.auth.isLogin);
     const location = useLocation();
+    const from = location.state?.from.pathname || '/';
+    // const awaitPassReset = useSelector(state => state.auth.awaitPassReset)
+    // console.log(from.pathname, location.state?.from.pathname)
 
-    if (neededPassReset && !forLoggedUser) {
-        return awaitPassReset ? element : <Navigate to="/forgot-password" replace/>;
+    if (anonymous && isLoggedIn) {
+        return <Navigate to={ from } />;
     }
 
-    if (forLoggedUser) {
-        return isUserLoaded ? element : <Navigate to="/login" replace state={location.pathname}/>;
+    // if (anonymous && !isLoggedIn && neededPassReset && !awaitPassReset) {
+    //     return <Navigate to="/forgot-password" replace/>;
+    // }
+
+    if (anonymous && !isLoggedIn && neededPassReset && !(from === '/forgot-password')) {
+        return <Navigate to="/forgot-password" replace/>;
     }
 
-    if (location.state !== null) {
-       return isUserLoaded ? <Navigate to={location.state} replace/> : element;
+    if (!anonymous && !isLoggedIn) {
+        return <Navigate to="/login" state={{ from: location}}/>;
     }
 
-    return !isUserLoaded ? element : <Navigate to="/" replace/>;
+    return element;
 }

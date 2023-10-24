@@ -8,7 +8,7 @@ const authSlice = createSlice({
         userEmail: '',
         userName: '',
         accessToken: '',
-        awaitPassReset: false,
+        // awaitPassReset: false,
         isLogin: false,
         requestErr: false,
         requestInProcess: false,
@@ -48,9 +48,9 @@ const authSlice = createSlice({
             state.accessToken = '';
             state.isLogin = false;
         },
-        waitPassReset(state, action) {
-            state.awaitPassReset = action.payload
-        },
+        // waitPassReset(state, action) {
+        //     state.awaitPassReset = action.payload
+        // },
         jwtExpired(state) {
             state.jwtExpired = true;
         },
@@ -75,7 +75,7 @@ export function forgotPasswordRequest(payload) {
             .then(res => {
                 dispatch(authSlice.actions.fetchSuccess());
                 // dispatch(authSlice.actions.setRedirection());
-                dispatch(authSlice.actions.waitPassReset(true))
+                // dispatch(authSlice.actions.waitPassReset(true))
             })
             .catch(err => {
                 dispatch(authSlice.actions.fetchError());
@@ -99,7 +99,7 @@ export function resetPasswordRequest(payload) {
             .then(res => {
                 dispatch(authSlice.actions.fetchSuccess());
                 dispatch(authSlice.actions.setRedirection());
-                dispatch(authSlice.actions.waitPassReset(false))
+                // dispatch(authSlice.actions.waitPassReset(false))
             })
             .catch(err => {
                 dispatch(authSlice.actions.fetchError());

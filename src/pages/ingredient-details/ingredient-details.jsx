@@ -1,9 +1,39 @@
 import styles from "./ingredient-details.module.css";
-import {useSelector} from "react-redux";
-import React from "react";
+import {useDispatch, useSelector} from "react-redux";
+import React, {useEffect} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {handleClosing} from "../../services/modalSlice";
+import {addIngredient, setIsOpen, setModalHeader, setModalType} from "../../services/detailsSlice";
 
 export function IngredientsDetails({standalone}) {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const { id: ingredientID }  = useParams()
+    const burgersData = useSelector(state => state.ingredients.burgersData);
     const ingredientData = useSelector(state => state.details.ingDetails);
+
+    const isClosing = useSelector(state => state.modal.isClosing);
+
+    useEffect(() => {
+        if (isClosing) {
+            navigate(-1)
+            dispatch(handleClosing(false))
+        }
+    }, [isClosing]);
+
+    useEffect(() => {
+        const [ ingredientData ] = burgersData.filter(item => item._id.includes(ingredientID))
+        dispatch(addIngredient(ingredientData))
+    }, [ingredientID]);
+
+    useEffect(() => {
+        if (!standalone) {
+            dispatch(setModalType(''));
+            dispatch(setModalHeader('Детали ингредиента'));
+            dispatch(setIsOpen(true));
+        }
+    }, [standalone]);
 
     return (
         <div className={styles.box}>
