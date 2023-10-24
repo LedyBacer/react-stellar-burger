@@ -1,0 +1,13 @@
+.clickable {
+    cursor: pointer;
+}
+
+.text_dark_grey_secondary_text {
+    opacity: 0.4;
+}
+
+.reset_nav {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}

@@ -11,6 +11,9 @@ import {setIsOpen, setModalHeader, setModalType} from "../../services/detailsSli
 import {moveCardSlice, removeIngredient, addIngredient, replaceBun} from "../../services/constructorSlice";
 import {placeOrder} from "../../services/orderSlice";
 import {useDrag, useDrop} from "react-dnd";
+import {useNavigate} from "react-router-dom";
+import {isTokenExpired} from "../../utils/api";
+import {refreshTokenRequest, updateUserInfoRequest} from "../../services/authSlice";
 
 function IngredientItem({ingredient, handleCart, index, id, moveCard}) {
     const ref = useRef(null)
@@ -116,6 +119,9 @@ function BurgerConstructor() {
     const ref = useRef(null)
     const dispatch = useDispatch();
     const [isDisabled, setIsDisabled] = useState(true)
+    const isLogin = useSelector(state => state.auth.isLogin)
+    const navigate = useNavigate()
+    const accessToken = useSelector(state => state.auth.accessToken)
 
     useEffect(() => {
         setIsDisabled(bunInCartId === '')
@@ -138,10 +144,17 @@ function BurgerConstructor() {
     }, [cart, bunInCartId, burgersData, isDisabled])
 
     const handleOrder = () => {
-        dispatch(placeOrder([cart, bunInCartId]));
-        dispatch(setModalType('order'));
-        dispatch(setModalHeader(''));
-        dispatch(setIsOpen(true));
+        if (isLogin) {
+            if (isTokenExpired(accessToken)) {
+                dispatch(refreshTokenRequest());
+            }
+            dispatch(placeOrder([cart, bunInCartId, accessToken]));
+            dispatch(setModalType('order'));
+            dispatch(setModalHeader(''));
+            dispatch(setIsOpen(true));
+        } else {
+            navigate('/login');
+        }
     }
 
     const handleCart = (e) => dispatch(removeIngredient(e))

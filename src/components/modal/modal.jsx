@@ -1,10 +1,11 @@
 import ReactDOM from "react-dom";
-import React from 'react';
+import React, {useState} from 'react';
 import styles from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import Overlay from "../modal-overlay/modal-overlay";
 import {setIsOpen} from "../../services/detailsSlice";
 import {useDispatch, useSelector} from "react-redux";
+import {handleClosing} from "../../services/modalSlice";
 
 const modalRoot = document.getElementById("modal-root");
 
@@ -16,6 +17,7 @@ export default function Modal({ children }) {
     const handleClose = () => {
         if (isLoading) {
             dispatch(setIsOpen(false));
+            dispatch(handleClosing(true))
         }
     };
 

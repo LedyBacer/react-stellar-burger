@@ -22,18 +22,22 @@
 
 .constructor {
     composes: tabs;
+    cursor: pointer;
 }
 
 .order-list {
     composes: tabs;
+    cursor: pointer;
 }
 
 .logo {
     justify-self: center;
+    cursor: pointer;
 }
 
 .login {
     justify-self: right;
     display: flex;
     flex-flow: row;
+    cursor: pointer;
 }
