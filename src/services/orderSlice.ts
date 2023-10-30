@@ -26,7 +26,7 @@ const orderSlice = createSlice({
             state.orderErr = false;
             state.orderReady = false;
         },
-        fetchSuccess(state, action: {payload: string, type: any}) {
+        fetchSuccess(state, action: {payload: string}) {
             state.orderRequest = false;
             state.orderReady = true;
             state.id = action.payload;

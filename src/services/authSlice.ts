@@ -46,12 +46,12 @@ const authSlice = createSlice({
         setRedirection(state) {
           state.redirectNeeded = !state.redirectNeeded
         },
-        updateInfo(state, action: {payload: {user: {email: string, name: string}}, type: any}) {
+        updateInfo(state, action: {payload: {user: {email: string, name: string}}}) {
             state.userEmail = action.payload.user.email;
             state.userName = action.payload.user.name;
             state.isLogin = true;
         },
-        updateToken(state, action: {payload: string, type: any}) {
+        updateToken(state, action: {payload: string}) {
             state.accessToken = action.payload;
             state.jwtExpired = false;
             state.jwtRenewed = true;

@@ -32,16 +32,16 @@ const detailsSlice = createSlice({
     name: 'details',
     initialState,
     reducers: {
-        addIngredient(state, action: {payload: IBurgData, type: any}) {
+        addIngredient(state, action: {payload: IBurgData}) {
             state.ingDetails = action.payload;
         },
-        setModalType(state, action: {payload: string, type: any}) {
+        setModalType(state, action: {payload: string}) {
             state.modalType = action.payload
         },
-        setModalHeader(state, action: {payload: string, type: any}) {
+        setModalHeader(state, action: {payload: string}) {
             state.modalHeader = action.payload
         },
-        setIsOpen(state, action: {payload: boolean, type: any}) {
+        setIsOpen(state, action: {payload: boolean}) {
             if (!action.payload) {
                 return initialState;
             } else {

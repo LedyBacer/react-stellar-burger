@@ -6,7 +6,7 @@ const modalSlice = createSlice({
         isClosing: false
     },
     reducers: {
-        handleClosing(state, action: {payload: boolean, type: any}) {
+        handleClosing(state, action: {payload: boolean}) {
             state.isClosing = action.payload
         }
     },

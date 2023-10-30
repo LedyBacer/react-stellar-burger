@@ -22,7 +22,7 @@ type TIngredientItem = {
     handleCart: (e: number) => void,
     index: number,
     id: string,
-    moveCard: (dragIndex: any, hoverIndex: any) => void
+    moveCard: (dragIndex: number, hoverIndex: number) => void
 }
 
 function IngredientItem({ingredient, handleCart, index, id, moveCard}: TIngredientItem) {

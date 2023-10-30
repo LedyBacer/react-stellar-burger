@@ -26,7 +26,7 @@ const ingredientsSlice = createSlice({
             state.ingredientFailed = false;
             state.ingredientLoaded = false;
         },
-        fetchSuccess(state, action: {payload: Array<IBurgData>, type: any}) {
+        fetchSuccess(state, action: {payload: Array<IBurgData>}) {
             state.ingredientRequest = false;
             state.burgersData = action.payload;
             state.ingredientLoaded = true;

@@ -19,22 +19,22 @@ const constructorSlice = createSlice({
     name: 'constructorCart',
     initialState,
     reducers: {
-        addIngredient(state, action: {payload: string, type: any}) {
+        addIngredient(state, action: {payload: string}) {
             state.ingredientsId.push({
                 ingredientId: action.payload,
                 cardId: crypto.randomUUID()
             });
         },
-        removeIngredient(state, action: {payload: number, type: any}) {
+        removeIngredient(state, action: {payload: number}) {
             state.ingredientsId.splice(action.payload, 1)
         },
         clearCart() {
             return initialState
         },
-        replaceBun(state, action: {payload: string, type: any}) {
+        replaceBun(state, action: {payload: string}) {
             state.bunId = action.payload;
         },
-        moveCardSlice(state, action: {payload: [dragIndex: number, hoverIndex: number], type: any}) {
+        moveCardSlice(state, action: {payload: [dragIndex: number, hoverIndex: number]}) {
             const [ dragIndex, hoverIndex ] = action.payload
             const updatedElement = state.ingredientsId[dragIndex];
 
