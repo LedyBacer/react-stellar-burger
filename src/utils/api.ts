@@ -18,8 +18,8 @@ const saveTokenToCookie = (res: IAPIres) => {
 }
 
 export function isTokenExpired(token: string) : boolean {
-    //const payload = JSON.parse(atob(token.split('.')[1]));
-    const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    //const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
     const exp = payload.exp * 1000;
     const now = Date.now();
     //console.log(exp, now)
