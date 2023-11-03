@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export interface IIngredientsId {
     ingredientId: string,
@@ -19,22 +19,22 @@ const constructorSlice = createSlice({
     name: 'constructorCart',
     initialState,
     reducers: {
-        addIngredient(state, action: {payload: string}) {
+        addIngredient(state, action: PayloadAction<string>) {
             state.ingredientsId.push({
                 ingredientId: action.payload,
                 cardId: crypto.randomUUID()
             });
         },
-        removeIngredient(state, action: {payload: number}) {
+        removeIngredient(state, action: PayloadAction<number>) {
             state.ingredientsId.splice(action.payload, 1)
         },
         clearCart() {
             return initialState
         },
-        replaceBun(state, action: {payload: string}) {
+        replaceBun(state, action: PayloadAction<string>) {
             state.bunId = action.payload;
         },
-        moveCardSlice(state, action: {payload: [dragIndex: number, hoverIndex: number]}) {
+        moveCardSlice(state, action: PayloadAction<[dragIndex: number, hoverIndex: number]>) {
             const [ dragIndex, hoverIndex ] = action.payload
             const updatedElement = state.ingredientsId[dragIndex];
 

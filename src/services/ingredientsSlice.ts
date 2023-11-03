@@ -1,7 +1,7 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {AnyAction, createSlice, PayloadAction, ThunkAction} from "@reduxjs/toolkit";
 import {request} from "../utils/api";
 import {IBurgData} from "../utils/types";
-import {AppDispatch} from "./index";
+import {RootState} from "./index";
 
 interface IInitialState {
     burgersData: Array<IBurgData>,
@@ -26,7 +26,7 @@ const ingredientsSlice = createSlice({
             state.ingredientFailed = false;
             state.ingredientLoaded = false;
         },
-        fetchSuccess(state, action: {payload: Array<IBurgData>}) {
+        fetchSuccess(state, action: PayloadAction<Array<IBurgData>>) {
             state.ingredientRequest = false;
             state.burgersData = action.payload;
             state.ingredientLoaded = true;
@@ -38,8 +38,8 @@ const ingredientsSlice = createSlice({
     },
 });
 
-export function getIngredients() {
-    return function(dispatch: AppDispatch) {
+export function getIngredients(): ThunkAction<void, RootState, unknown, AnyAction> {
+    return function(dispatch) {
         dispatch(ingredientsSlice.actions.fetchStarted());
         request('/ingredients')
             .then(res => {

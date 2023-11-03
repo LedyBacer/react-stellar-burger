@@ -1,12 +1,18 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+
+interface IInitialState {
+    isClosing: boolean
+}
+
+const initialState: IInitialState = {
+    isClosing: false
+}
 
 const modalSlice = createSlice({
     name: 'modal',
-    initialState: {
-        isClosing: false
-    },
+    initialState,
     reducers: {
-        handleClosing(state, action: {payload: boolean}) {
+        handleClosing(state, action: PayloadAction<boolean>) {
             state.isClosing = action.payload
         }
     },

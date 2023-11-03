@@ -1,7 +1,7 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {AnyAction, createSlice, PayloadAction, ThunkAction} from "@reduxjs/toolkit";
 import {request} from "../utils/api";
 import {clearCart, IIngredientsId} from "./constructorSlice";
-import {AppDispatch} from "./index";
+import {RootState} from "./index";
 
 interface IInitialState {
     id: string,
@@ -26,7 +26,7 @@ const orderSlice = createSlice({
             state.orderErr = false;
             state.orderReady = false;
         },
-        fetchSuccess(state, action: {payload: string}) {
+        fetchSuccess(state, action: PayloadAction<string>) {
             state.orderRequest = false;
             state.orderReady = true;
             state.id = action.payload;
@@ -45,8 +45,8 @@ type TPayload = [
     authorization: string
 ]
 
-export function placeOrder(payload: TPayload) {
-    return function(dispatch: AppDispatch) {
+export function placeOrder(payload: TPayload): ThunkAction<void, RootState, unknown, AnyAction> {
+    return function(dispatch) {
         dispatch(orderSlice.actions.fetchStarted());
 
         const [ items, bun, authorization ] = payload;
