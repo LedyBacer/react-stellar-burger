@@ -15,7 +15,8 @@ function AppHeader() {
     const secondaryArgs: TArgs = {text: 'text_color_inactive', icon: 'secondary'}
     const initTabState = {
         home: secondaryArgs,
-        profile: secondaryArgs
+        profile: secondaryArgs,
+        feed: secondaryArgs
     }
     const [activeTab, setActiveTab] = useState(initTabState)
     const onClickProfile = () => {
@@ -27,7 +28,7 @@ function AppHeader() {
     }
 
     const onClickList = () => {
-        //wip
+        navigate('/feed')
     }
 
     useEffect(() => {
@@ -35,6 +36,8 @@ function AppHeader() {
             setActiveTab({...initTabState, home: activeArgs})
         } else if (url.includes('/profile')) {
             setActiveTab({...initTabState, profile: activeArgs})
+        } else if (url.includes('/feed')) {
+            setActiveTab({...initTabState, feed: activeArgs})
         }
     }, [url]);
 
@@ -47,8 +50,8 @@ function AppHeader() {
                         <p className={`text text_type_main-default ml-2 ${activeTab.home.text}`}>Конструктор</p>
                     </div>
                     <div className={`${styles['order-list']} pl-5 pr-5 mt-4 mb-4 ml-2`} onClick={onClickList}>
-                        <ListIcon type="secondary"/>
-                        <p className="text text_type_main-default text_color_inactive ml-2">Лента заказов</p>
+                        <ListIcon type={activeTab.feed.icon}/>
+                        <p className={`text text_type_main-default ml-2 ${activeTab.feed.text}`}>Лента заказов</p>
                     </div>
                 </div>
                 <div className={styles.logo} onClick={onClickConstructor}>

@@ -29,11 +29,13 @@ export default function Profile() {
     }, [userEmail, userName]);
 
     const onSubmit = (e: React.FormEvent<HTMLElement>) => {
-        e.preventDefault();
-        if (isTokenExpired(accessToken)) {
-            dispatch(refreshTokenRequest());
+        if (accessToken) {
+            e.preventDefault();
+            if (isTokenExpired(accessToken)) {
+                dispatch(refreshTokenRequest());
+            }
+            dispatch(updateUserInfoRequest({...values, accessToken}));
         }
-        dispatch(updateUserInfoRequest({...values, accessToken}));
     }
 
     const onReset = (e: React.FormEvent<HTMLElement>) => {

@@ -6,7 +6,7 @@ import {RootState} from "./index";
 interface IInitialState {
     userEmail: string,
     userName: string,
-    accessToken: string,
+    accessToken: string | null,
     isLogin: boolean,
     requestErr: boolean,
     requestInProcess: boolean,
@@ -18,7 +18,7 @@ interface IInitialState {
 const initialState: IInitialState = {
     userEmail: '',
     userName: '',
-    accessToken: '',
+    accessToken: null,
     isLogin: false,
     requestErr: false,
     requestInProcess: false,

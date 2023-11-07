@@ -10,7 +10,8 @@ export function ProfileNavbar() {
     const url = window.location.href;
     const initTabState = {
         profile: 'text_color_inactive',
-        orders: 'text_color_inactive'
+        orders: 'text_color_inactive',
+        activeTab: ''
     }
     const [activeTab, setActiveTab] = useState(initTabState)
 
@@ -28,14 +29,14 @@ export function ProfileNavbar() {
 
     useEffect(() => {
         if (url.endsWith('/profile')) {
-            setActiveTab({...initTabState, profile: ''})
+            setActiveTab({...initTabState, profile: '', activeTab: 'profile'})
         } else if (url.endsWith('/profile/orders')) {
-            setActiveTab({...initTabState, orders: ''})
+            setActiveTab({...initTabState, orders: '', activeTab: 'orders'})
         }
     }, [url]);
 
     return (
-        <div className={`ml-5`}>
+        <div className={`ml-5`} style={activeTab.activeTab === 'orders' ? {alignSelf: 'center'} : {}} >
             <nav>
                 <ul className={styles.reset_nav}>
                     <li className='pt-4 pb-4'><a className={`${styles.clickable} text text_type_main-medium ${activeTab.profile}`} onClick={onProfileClick}>Профиль</a></li>

@@ -1,0 +1,32 @@
+.container {
+    width: 580px;
+}
+
+.container_ordernum{
+    width: 272px;
+    height: 152px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    gap: 8px 4px;
+    grid-template-areas:
+    ". . ."
+    ". . ."
+    ". . ."
+    ". . ."
+    ". . .";
+}
+
+.large_digits {
+    text-shadow: 0 4px 32px rgba(51, 51, 255, 0.50), 0 0 8px rgba(51, 51, 255, 0.25), 0 0 16px rgba(51, 51, 255, 0.25);
+}
+
+.orders_container {
+    display: flex;
+    width: 100%;
+}
+
+.order_ready {
+    color: #0CC;
+}

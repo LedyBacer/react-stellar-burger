@@ -9,9 +9,9 @@
 .main {
     display: grid;
     max-width: 1280px;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
     grid-template-rows: 1fr;
-    gap: 0 60px;
+    /*gap: 0 60px;*/
     grid-template-areas:
     ". . .";
     /*align-items: center;*/
