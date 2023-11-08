@@ -1,7 +1,7 @@
-import {AnyAction, createSlice, PayloadAction, ThunkAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {request} from "../utils/api";
 import {clearCart, IIngredientsId} from "./constructorSlice";
-import {RootState} from "./index";
+import {TAppThunkAction} from "../utils/types";
 
 interface IInitialState {
     id: string,
@@ -45,7 +45,7 @@ type TPayload = [
     authorization: string
 ]
 
-export function placeOrder(payload: TPayload): ThunkAction<void, RootState, unknown, AnyAction> {
+export function placeOrder(payload: TPayload): TAppThunkAction {
     return function(dispatch) {
         dispatch(orderSlice.actions.fetchStarted());
 

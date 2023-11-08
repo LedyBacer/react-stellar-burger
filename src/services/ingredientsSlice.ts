@@ -1,7 +1,6 @@
-import {AnyAction, createSlice, PayloadAction, ThunkAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {request} from "../utils/api";
-import {IBurgData} from "../utils/types";
-import {RootState} from "./index";
+import {IBurgData, TAppThunkAction} from "../utils/types";
 
 interface IInitialState {
     burgersData: Array<IBurgData>,
@@ -38,7 +37,7 @@ const ingredientsSlice = createSlice({
     },
 });
 
-export function getIngredients(): ThunkAction<void, RootState, unknown, AnyAction> {
+export function getIngredients(): TAppThunkAction {
     return function(dispatch) {
         dispatch(ingredientsSlice.actions.fetchStarted());
         request('/ingredients')

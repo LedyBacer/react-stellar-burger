@@ -1,7 +1,7 @@
-import {AnyAction, createSlice, PayloadAction, ThunkAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {request} from "../utils/api";
 import {eraseCookie, getCookie} from "../utils/cookie";
-import {RootState} from "./index";
+import {TAppThunkAction} from "../utils/types";
 
 interface IInitialState {
     userEmail: string,
@@ -68,7 +68,7 @@ const authSlice = createSlice({
     },
 })
 
-export function forgotPasswordRequest(payload: string): ThunkAction<void, RootState, unknown, AnyAction> {
+export function forgotPasswordRequest(payload: string): TAppThunkAction {
     return function(dispatch) {
         dispatch(authSlice.actions.fetchStarted());
         const email = payload;
@@ -91,7 +91,7 @@ export function forgotPasswordRequest(payload: string): ThunkAction<void, RootSt
     }
 }
 
-export function resetPasswordRequest(payload: {password: string, token: string}): ThunkAction<void, RootState, unknown, AnyAction> {
+export function resetPasswordRequest(payload: {password: string, token: string}): TAppThunkAction {
     return function(dispatch) {
         dispatch(authSlice.actions.fetchStarted());
         const { password, token } = payload;
@@ -114,7 +114,7 @@ export function resetPasswordRequest(payload: {password: string, token: string})
     }
 }
 
-export function createUserRequest(payload: {password: string, email: string, name: string}): ThunkAction<void, RootState, unknown, AnyAction> {
+export function createUserRequest(payload: {password: string, email: string, name: string}): TAppThunkAction {
     return function(dispatch) {
         dispatch(authSlice.actions.fetchStarted());
         const { email, password, name } = payload;
@@ -140,7 +140,7 @@ export function createUserRequest(payload: {password: string, email: string, nam
     }
 }
 
-export function loginUserRequest(payload: {password: string, email: string}): ThunkAction<void, RootState, unknown, AnyAction> {
+export function loginUserRequest(payload: {password: string, email: string}): TAppThunkAction {
     return function(dispatch) {
         dispatch(authSlice.actions.fetchStarted());
         const { email, password } = payload;
@@ -166,7 +166,7 @@ export function loginUserRequest(payload: {password: string, email: string}): Th
     }
 }
 
-export function refreshTokenRequest(): ThunkAction<void, RootState, unknown, AnyAction> {
+export function refreshTokenRequest(): TAppThunkAction {
     return function(dispatch) {
         dispatch(authSlice.actions.fetchStarted());
 
@@ -190,7 +190,7 @@ export function refreshTokenRequest(): ThunkAction<void, RootState, unknown, Any
     }
 }
 
-export function userLogoutRequest(): ThunkAction<void, RootState, unknown, AnyAction> {
+export function userLogoutRequest(): TAppThunkAction {
     return function(dispatch) {
         dispatch(authSlice.actions.fetchStarted());
 
@@ -213,7 +213,7 @@ export function userLogoutRequest(): ThunkAction<void, RootState, unknown, AnyAc
     }
 }
 
-export function getUserInfoRequest(payload: string): ThunkAction<void, RootState, unknown, AnyAction> {
+export function getUserInfoRequest(payload: string): TAppThunkAction {
     return function(dispatch) {
         dispatch(authSlice.actions.fetchStarted())
 
@@ -235,7 +235,7 @@ export function getUserInfoRequest(payload: string): ThunkAction<void, RootState
     }
 }
 
-export function updateUserInfoRequest(payload: {email: string, password: string, name: string, accessToken: string}): ThunkAction<void, RootState, unknown, AnyAction> {
+export function updateUserInfoRequest(payload: {email: string, password: string, name: string, accessToken: string}): TAppThunkAction {
     return function(dispatch) {
         dispatch(authSlice.actions.fetchStarted())
         const {email, password, name, accessToken} = payload;
