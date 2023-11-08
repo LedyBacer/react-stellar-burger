@@ -1,5 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {IBurgData} from "../utils/types";
+import type { PayloadAction } from '@reduxjs/toolkit'
 
 interface IInitialState {
     ingDetails: IBurgData,
@@ -32,16 +33,16 @@ const detailsSlice = createSlice({
     name: 'details',
     initialState,
     reducers: {
-        addIngredient(state, action: {payload: IBurgData}) {
+        addIngredient(state, action: PayloadAction<IBurgData>) {
             state.ingDetails = action.payload;
         },
-        setModalType(state, action: {payload: string}) {
+        setModalType(state, action: PayloadAction<string>) {
             state.modalType = action.payload
         },
-        setModalHeader(state, action: {payload: string}) {
+        setModalHeader(state, action: PayloadAction<string>) {
             state.modalHeader = action.payload
         },
-        setIsOpen(state, action: {payload: boolean}) {
+        setIsOpen(state, action: PayloadAction<boolean>) {
             if (!action.payload) {
                 return initialState;
             } else {

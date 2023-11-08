@@ -85,7 +85,7 @@ function IngredientItem({ingredient, handleCart, index, id, moveCard}: TIngredie
                 text={ingredient.name}
                 price={ingredient.price}
                 thumbnail={ingredient.image}
-                extraClass="ml-2"
+                extraClass="ml-2 mr-1"
                 handleClose={() => handleCart(index)}
             />
         </div>
@@ -169,7 +169,7 @@ function BurgerConstructor() {
     }, [cart, bunInCartId, burgersData, isDisabled])
 
     const handleOrder = () => {
-        if (isLogin) {
+        if (isLogin && accessToken) {
             if (isTokenExpired(accessToken)) {
                 dispatch(refreshTokenRequest());
             }

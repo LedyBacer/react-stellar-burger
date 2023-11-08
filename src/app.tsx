@@ -17,6 +17,8 @@ import {HeaderRoute} from "./components/header-route/header-route";
 import {IngredientsDetails} from "./pages/ingredient-details/ingredient-details";
 import Modal from "./components/modal/modal";
 import {useAppDispatch, useAppSelector} from "./hooks/typedHooks";
+import {Feed} from "./pages/feed/feed";
+import {OrderInfo} from "./components/order-info/order-info";
 
 export default function App() {
     const dispatch = useAppDispatch()
@@ -62,9 +64,14 @@ export default function App() {
                             <Route path="/forgot-password" element={<ProtectedRoute element={<ForgotPassword />} anonymous={true}/>}/>
                             <Route path="/reset-password" element={<ProtectedRoute element={<ResetPassword />} anonymous={true} neededPassReset={true}/>}/>
                             <Route path="/profile" element={<ProtectedRoute element={<Profile />} />}/>
-                            <Route path="/profile/orders" element={<ProtectedRoute element={<Orders />} />}/>
-                            <Route path="/profile/orders/:id" element={<ProtectedRoute element={<p>wip</p>} />}/>
                             <Route path="/ingredients/:id" element={<IngredientsDetails standalone={true}/>}/>
+
+                            <Route path="/profile/orders" element={<ProtectedRoute element={<Orders />} />}/>
+                            <Route path="/profile/orders/:id" element={<ProtectedRoute element={<OrderInfo standalone={true} userPage={true}/>} />}/>
+
+                            <Route path="/feed" element={<Feed />}/>
+                            <Route path="/feed/:id" element={<OrderInfo standalone={true}/>}/>
+
                             <Route path="*" element={<NotFound404 />} />
                         </Route>
                     </Routes>
@@ -72,7 +79,17 @@ export default function App() {
                         <Routes>
                             <Route path="/ingredients/:id" element={
                                 <Modal>
-                                        <IngredientsDetails />
+                                    <IngredientsDetails />
+                                </Modal>
+                            }/>
+                            <Route path="/feed/:id" element={
+                                <Modal>
+                                    <OrderInfo />
+                                </Modal>
+                            }/>
+                            <Route path="/profile/orders/:id" element={
+                                <Modal>
+                                    <OrderInfo />
                                 </Modal>
                             }/>
                         </Routes>

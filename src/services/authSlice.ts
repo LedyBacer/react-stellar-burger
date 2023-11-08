@@ -1,12 +1,12 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {request} from "../utils/api";
 import {eraseCookie, getCookie} from "../utils/cookie";
-import {AppDispatch} from "./index";
+import {TAppThunkAction} from "../utils/types";
 
 interface IInitialState {
     userEmail: string,
     userName: string,
-    accessToken: string,
+    accessToken: string | null,
     isLogin: boolean,
     requestErr: boolean,
     requestInProcess: boolean,
@@ -18,7 +18,7 @@ interface IInitialState {
 const initialState: IInitialState = {
     userEmail: '',
     userName: '',
-    accessToken: '',
+    accessToken: null,
     isLogin: false,
     requestErr: false,
     requestInProcess: false,
@@ -46,12 +46,12 @@ const authSlice = createSlice({
         setRedirection(state) {
           state.redirectNeeded = !state.redirectNeeded
         },
-        updateInfo(state, action: {payload: {user: {email: string, name: string}}}) {
+        updateInfo(state, action: PayloadAction<{user: {email: string, name: string}}>) {
             state.userEmail = action.payload.user.email;
             state.userName = action.payload.user.name;
             state.isLogin = true;
         },
-        updateToken(state, action: {payload: string}) {
+        updateToken(state, action: PayloadAction<string>) {
             state.accessToken = action.payload;
             state.jwtExpired = false;
             state.jwtRenewed = true;
@@ -68,8 +68,8 @@ const authSlice = createSlice({
     },
 })
 
-export function forgotPasswordRequest(payload: string) {
-    return function(dispatch: AppDispatch) {
+export function forgotPasswordRequest(payload: string): TAppThunkAction {
+    return function(dispatch) {
         dispatch(authSlice.actions.fetchStarted());
         const email = payload;
 
@@ -91,8 +91,8 @@ export function forgotPasswordRequest(payload: string) {
     }
 }
 
-export function resetPasswordRequest(payload: {password: string, token: string}) {
-    return function(dispatch: AppDispatch) {
+export function resetPasswordRequest(payload: {password: string, token: string}): TAppThunkAction {
+    return function(dispatch) {
         dispatch(authSlice.actions.fetchStarted());
         const { password, token } = payload;
 
@@ -114,8 +114,8 @@ export function resetPasswordRequest(payload: {password: string, token: string})
     }
 }
 
-export function createUserRequest(payload: {password: string, email: string, name: string}) {
-    return function(dispatch: AppDispatch) {
+export function createUserRequest(payload: {password: string, email: string, name: string}): TAppThunkAction {
+    return function(dispatch) {
         dispatch(authSlice.actions.fetchStarted());
         const { email, password, name } = payload;
 
@@ -140,8 +140,8 @@ export function createUserRequest(payload: {password: string, email: string, nam
     }
 }
 
-export function loginUserRequest(payload: {password: string, email: string}) {
-    return function(dispatch: AppDispatch) {
+export function loginUserRequest(payload: {password: string, email: string}): TAppThunkAction {
+    return function(dispatch) {
         dispatch(authSlice.actions.fetchStarted());
         const { email, password } = payload;
 
@@ -166,8 +166,8 @@ export function loginUserRequest(payload: {password: string, email: string}) {
     }
 }
 
-export function refreshTokenRequest() {
-    return function(dispatch: AppDispatch) {
+export function refreshTokenRequest(): TAppThunkAction {
+    return function(dispatch) {
         dispatch(authSlice.actions.fetchStarted());
 
         request('/auth/token', {
@@ -190,8 +190,8 @@ export function refreshTokenRequest() {
     }
 }
 
-export function userLogoutRequest() {
-    return function(dispatch: AppDispatch) {
+export function userLogoutRequest(): TAppThunkAction {
+    return function(dispatch) {
         dispatch(authSlice.actions.fetchStarted());
 
         request('/auth/logout', {
@@ -213,8 +213,8 @@ export function userLogoutRequest() {
     }
 }
 
-export function getUserInfoRequest(payload: string) {
-    return function(dispatch: AppDispatch) {
+export function getUserInfoRequest(payload: string): TAppThunkAction {
+    return function(dispatch) {
         dispatch(authSlice.actions.fetchStarted())
 
         request('/auth/user', {
@@ -235,8 +235,8 @@ export function getUserInfoRequest(payload: string) {
     }
 }
 
-export function updateUserInfoRequest(payload: {email: string, password: string, name: string, accessToken: string}) {
-    return function(dispatch: AppDispatch) {
+export function updateUserInfoRequest(payload: {email: string, password: string, name: string, accessToken: string}): TAppThunkAction {
+    return function(dispatch) {
         dispatch(authSlice.actions.fetchStarted())
         const {email, password, name, accessToken} = payload;
         console.log(payload)
