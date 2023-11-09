@@ -1,12 +1,6 @@
-import reducer, {IOrderSliceInitialState, fetchStarted, fetchSuccess, fetchError} from "./orderSlice";
-
-
-const testInitialState: IOrderSliceInitialState = {
-    id: "000000",
-    orderErr: false,
-    orderRequest: false,
-    orderReady: true,
-}
+import reducer, {fetchStarted, fetchSuccess, fetchError,
+ initialState as testInitialState
+} from "./orderSlice";
 
 describe('orderSlice reducers', () => {
     it('should return the initial state', () => {

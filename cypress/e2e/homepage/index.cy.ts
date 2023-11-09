@@ -1,6 +1,6 @@
 describe('constructor works correctly', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:3000');
+        cy.visit('');
     })
 
     it('should open constructor page by default', () => {
@@ -8,98 +8,97 @@ describe('constructor works correctly', () => {
     });
 
     it('should have working dnd', () => {
-        cy.contains('Краторная булка N-200i').trigger("dragstart").trigger("dragleave");
-        cy.contains('Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа')
+        cy.contains(Cypress.env('bun')).trigger("dragstart").trigger("dragleave");
+        cy.contains(Cypress.env('dnd_drop'))
             .trigger("dragenter")
             .trigger("dragover")
             .trigger("drop");
-        cy.contains('Краторная булка N-200i (верх)')
+        cy.contains(Cypress.env('bun_up')).as('bun_up')
 
-        cy.contains('Соус Spicy-X').trigger("dragstart").trigger("dragleave");
-        cy.contains('Краторная булка N-200i (верх)')
+        cy.contains(Cypress.env('ingredient1')).trigger("dragstart").trigger("dragleave");
+        cy.get('@bun_up')
             .trigger("dragenter")
             .trigger("dragover")
             .trigger("drop");
-        cy.get('[data-handler-id^=T17]')
+        cy.get(Cypress.env('ingredient1_data')).as('ingredient1_data')
 
-        cy.contains('Соус фирменный Space Sauce').trigger("dragstart").trigger("dragleave");
-        cy.contains('Краторная булка N-200i (верх)')
+        cy.contains(Cypress.env('ingredient2')).trigger("dragstart").trigger("dragleave");
+        cy.get('@bun_up')
             .trigger("dragenter")
             .trigger("dragover")
             .trigger("drop");
-        cy.get('[data-handler-id^=T19]')
+        cy.get(Cypress.env('ingredient2_data')).as('ingredient2_data')
 
-        cy.get('[data-handler-id^=T17]').trigger("dragstart").trigger("dragleave");
-        cy.get('[data-handler-id^=T19]')
+        cy.get('@ingredient1_data').trigger("dragstart").trigger("dragleave");
+        cy.get('@ingredient2_data')
             .trigger("dragenter")
             .trigger("dragover")
             .trigger("drop");
 
-        cy.get('[data-test^=ingredient_container]').children().first().contains('Соус фирменный Space Sauce')
+        cy.get('[data-test^=ingredient_container]').children().first().contains(Cypress.env('ingredient2'))
     });
 
     it('should have working remove button', () => {
-        cy.contains('Соус Spicy-X').trigger("dragstart").trigger("dragleave");
-        cy.contains('Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа')
+        cy.contains(Cypress.env('ingredient1')).trigger("dragstart").trigger("dragleave");
+        cy.contains(Cypress.env('dnd_drop'))
             .trigger("dragenter")
             .trigger("dragover")
             .trigger("drop");
-        cy.get('[data-handler-id^=T17]')
+        cy.get(Cypress.env('ingredient1_data'))
 
         cy.get('[class^=constructor-element]').children().get('[class^=constructor-element__action]').click()
-        cy.contains('Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа')
+        cy.contains(Cypress.env('dnd_drop'))
     });
 
     it('should not allow ordering without bun', () => {
-        cy.contains('Соус Spicy-X').trigger("dragstart").trigger("dragleave");
-        cy.contains('Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа')
+        cy.contains(Cypress.env('ingredient1')).trigger("dragstart").trigger("dragleave");
+        cy.contains(Cypress.env('dnd_drop'))
             .trigger("dragenter")
             .trigger("dragover")
             .trigger("drop");
 
-        cy.get('button').contains('Оформить заказ').should('be.disabled')
+        cy.get('button').contains(Cypress.env('order_btn')).should('be.disabled')
     });
 
     it('should not allow ordering without login', () => {
-        cy.contains('Краторная булка N-200i').trigger("dragstart").trigger("dragleave");
-        cy.contains('Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа')
+        cy.contains(Cypress.env('bun')).trigger("dragstart").trigger("dragleave");
+        cy.contains(Cypress.env('dnd_drop'))
             .trigger("dragenter")
             .trigger("dragover")
             .trigger("drop");
 
-        cy.get('button').contains('Оформить заказ').click();
+        cy.get('button').contains(Cypress.env('order_btn')).click();
         cy.location().should(location => expect(location.pathname).to.eq('/login'))
     });
 
     it('should have working modal ingredients', () => {
-        cy.contains('Соус Spicy-X').click();
+        cy.contains(Cypress.env('ingredient1')).click();
         cy.contains('Детали ингредиента');
-        cy.get('[data-test^=modal]').children().contains('Соус Spicy-X')
+        cy.get('[data-test^=modal]').children().contains(Cypress.env('ingredient1'))
         cy.get('[data-test^=modal_header]').children().last().children().click()
         cy.get('[data-test^=modal]').should('not.exist')
     });
 
     it('should have working ordering', () => {
-        cy.visit('http://localhost:3000/login')
-        cy.get('[name^=email]').type('minecraft.klub@yandenx.ru')
-        cy.get('[name^=password]').type('testtest')
+        cy.visit('login')
+        cy.get('[name^=email]').type(Cypress.env('email'))
+        cy.get('[name^=password]').type(Cypress.env('pass'))
         cy.contains('Войти').click()
 
-        cy.contains('Краторная булка N-200i').trigger("dragstart").trigger("dragleave");
-        cy.contains('Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа')
+        cy.contains(Cypress.env('bun')).trigger("dragstart").trigger("dragleave");
+        cy.contains(Cypress.env('dnd_drop'))
             .trigger("dragenter")
             .trigger("dragover")
             .trigger("drop");
 
-        cy.contains('Оформить заказ').click()
+        cy.contains(Cypress.env('order_btn')).click()
         cy.get('[data-test^=modal]').should('exist')
         cy.intercept({
             method: 'POST',
-            url: 'https://norma.nomoreparties.space/api/orders',
+            url: Cypress.env('api_order'),
         }).as('dataGetFirst');
         cy.wait('@dataGetFirst').its('response.statusCode').should('equal', 200)
         cy.contains('Ваш заказ начали готовить').should('exist')
-
     });
 
 });

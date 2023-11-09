@@ -11,7 +11,7 @@ export type TConstructorSliceInitialState = {
     bunId: string
 }
 
-const initialState: TConstructorSliceInitialState = {
+export const initialState: TConstructorSliceInitialState = {
     ingredientsId: [],
     bunId: '',
 }

@@ -4,7 +4,7 @@ export interface IModalSliceInitialState {
     isClosing: boolean
 }
 
-const initialState: IModalSliceInitialState = {
+export const initialState: IModalSliceInitialState = {
     isClosing: false
 }
 

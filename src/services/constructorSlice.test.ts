@@ -3,24 +3,21 @@ import reducer, {
     addIngredient,
     removeIngredient,
     clearCart,
-    replaceBun, moveCardSlice
+    replaceBun, moveCardSlice,
+    initialState as testInitialState
 } from "./constructorSlice";
 import * as uuid from 'uuid';
 jest.mock('uuid');
 
 describe('constructorSlice reducers', () => {
     it('should return the initial state', () => {
-        expect(reducer(undefined, {type: undefined})).toEqual({
-            ingredientsId: [],
-            bunId: '',
-        })
+        expect(reducer(undefined, {type: undefined})).toEqual(testInitialState)
     })
 
     it('should handle addIngredient', () => {
-        const previousState: TConstructorSliceInitialState = {ingredientsId: [], bunId: '',}
         jest.spyOn(uuid, 'v4').mockReturnValue('mocked-uuid')
 
-        expect(reducer(previousState, addIngredient('60666c42cc7b410027a1a9b1'))).toEqual({
+        expect(reducer(testInitialState, addIngredient('60666c42cc7b410027a1a9b1'))).toEqual({
             ingredientsId: [{
                 ingredientId: '60666c42cc7b410027a1a9b1',
                 cardId: 'mocked-uuid'
@@ -34,19 +31,13 @@ describe('constructorSlice reducers', () => {
     it('should handle removeIngredient', () => {
         const previousState: TConstructorSliceInitialState = {ingredientsId: [{ingredientId: '123', cardId: '321'}], bunId: 'ct76t',}
 
-        expect(reducer(previousState, removeIngredient(0))).toEqual({
-            ingredientsId: [],
-            bunId: '',
-        })
+        expect(reducer(previousState, removeIngredient(0))).toEqual({...testInitialState, bunId: 'ct76t'})
     })
 
     it('should handle clearCart', () => {
         const previousState: TConstructorSliceInitialState = {ingredientsId: [{ingredientId: '123', cardId: '321'}], bunId: 'ct76t',}
 
-        expect(reducer(previousState, clearCart())).toEqual({
-            ingredientsId: [],
-            bunId: '',
-        })
+        expect(reducer(previousState, clearCart())).toEqual(testInitialState)
     })
 
     it('should handle replaceBun', () => {

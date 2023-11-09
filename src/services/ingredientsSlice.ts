@@ -9,7 +9,7 @@ export interface IIngredientsSliceInitialState {
     ingredientLoaded: boolean
 }
 
-const initialState: IIngredientsSliceInitialState = {
+export const initialState: IIngredientsSliceInitialState = {
     burgersData: [],
     ingredientRequest: false,
     ingredientFailed: false,

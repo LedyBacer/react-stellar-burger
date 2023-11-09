@@ -3,23 +3,9 @@ import reducer, {
     IDetailsSliceInitialState,
     setIsOpen,
     setModalHeader,
-    setModalType
+    setModalType,
+    initialState as initialIngDetails
 } from "./detailsSlice";
-
-const initialIngDetails = {
-    _id: '',
-    calories: 0,
-    carbohydrates: 0,
-    fat: 0,
-    image: '',
-    image_large: '',
-    image_mobile: '',
-    name: '',
-    price: 0,
-    proteins: 0,
-    type: '',
-    __v: 0,
-}
 
 const testIngDetails = {
     _id: "643d69a5c3f7b9001cfa093d",
@@ -38,74 +24,33 @@ const testIngDetails = {
 
 describe('detailsSlice reducers', () => {
     it('should return the initial state', () => {
-        expect(reducer(undefined, {type: undefined})).toEqual({
-            ingDetails: initialIngDetails,
-            modalType: '',
-            modalHeader: '',
-            isOpen: false
-        })
+        expect(reducer(undefined, {type: undefined})).toEqual(initialIngDetails)
     })
 
     it('should handle addIngredient', () => {
-        const previousState: IDetailsSliceInitialState = {
-            ingDetails: initialIngDetails,
-            modalType: '',
-            modalHeader: '',
-            isOpen: false
-        }
-
-        expect(reducer(previousState, addIngredient(testIngDetails))).toEqual({
-            ingDetails: testIngDetails,
-            modalType: '',
-            modalHeader: '',
-            isOpen: false
+        expect(reducer(initialIngDetails, addIngredient(testIngDetails))).toEqual({
+            ...initialIngDetails,
+            ingDetails: testIngDetails
         })
     })
 
     it('should handle setModalType', () => {
-        const previousState: IDetailsSliceInitialState = {
-            ingDetails: initialIngDetails,
-            modalType: '',
-            modalHeader: '',
-            isOpen: false
-        }
-
-        expect(reducer(previousState, setModalType('modalType'))).toEqual({
-            ingDetails: initialIngDetails,
-            modalType: 'modalType',
-            modalHeader: '',
-            isOpen: false
+        expect(reducer(initialIngDetails, setModalType('modalType'))).toEqual({
+            ...initialIngDetails,
+            modalType: 'modalType'
         })
     })
 
     it('should handle setModalHeader', () => {
-        const previousState: IDetailsSliceInitialState = {
-            ingDetails: initialIngDetails,
-            modalType: '',
-            modalHeader: '',
-            isOpen: false
-        }
-
-        expect(reducer(previousState, setModalHeader('modalHeader'))).toEqual({
-            ingDetails: initialIngDetails,
-            modalType: '',
-            modalHeader: 'modalHeader',
-            isOpen: false
+        expect(reducer(initialIngDetails, setModalHeader('modalHeader'))).toEqual({
+            ...initialIngDetails,
+            modalHeader: 'modalHeader'
         })
     })
 
     it('should handle setIsOpen open', () => {
-        const previousState: IDetailsSliceInitialState = {
-            ingDetails: initialIngDetails,
-            modalType: '',
-            modalHeader: '',
-            isOpen: false
-        }
-
-        expect(reducer(previousState, setIsOpen(true))).toEqual({
-            ingDetails: initialIngDetails,
-            modalType: '',
-            modalHeader: '',
+        expect(reducer(initialIngDetails, setIsOpen(true))).toEqual({
+            ...initialIngDetails,
             isOpen: true
         })
     })
@@ -118,12 +63,7 @@ describe('detailsSlice reducers', () => {
             isOpen: true
         }
 
-        expect(reducer(previousState, setIsOpen(false))).toEqual({
-            ingDetails: initialIngDetails,
-            modalType: '',
-            modalHeader: '',
-            isOpen: false
-        })
+        expect(reducer(previousState, setIsOpen(false))).toEqual(initialIngDetails)
     })
 
 })

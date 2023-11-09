@@ -9,7 +9,7 @@ export interface IDetailsSliceInitialState {
     isOpen: boolean
 }
 
-const initialState: IDetailsSliceInitialState = {
+export const initialState: IDetailsSliceInitialState = {
     ingDetails: {
         _id: '',
         calories: 0,

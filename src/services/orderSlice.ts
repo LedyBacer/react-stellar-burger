@@ -10,7 +10,7 @@ export interface IOrderSliceInitialState {
     orderReady: boolean
 }
 
-const initialState: IOrderSliceInitialState = {
+export const initialState: IOrderSliceInitialState = {
     id: "000000",
     orderErr: false,
     orderRequest: false,

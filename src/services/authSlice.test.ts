@@ -4,21 +4,10 @@ import reducer, {
     fetchSuccess,
     fetchError,
     setRedirection,
-    updateInfo, updateToken, handleLogout, jwtExpired, jwtRenewedFalse
+    updateInfo, updateToken, handleLogout, jwtExpired, jwtRenewedFalse,
+    initialState as testInitialState
 } from "./authSlice";
 import {testUser} from "../utils/data";
-
-const testInitialState: IAuthSliceInitialState = {
-    userEmail: '',
-    userName: '',
-    accessToken: null,
-    isLogin: false,
-    requestErr: false,
-    requestInProcess: false,
-    redirectNeeded: false,
-    jwtExpired: false,
-    jwtRenewed: false
-};
 
 const testChangedState: IAuthSliceInitialState = {
     userEmail: 'test',

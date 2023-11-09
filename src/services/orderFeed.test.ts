@@ -1,20 +1,11 @@
 import reducer, {
-    IOrderFeedInitialState,
     wsConnectionAllInit,
     wsConnectionClose, wsConnectionClosed, wsConnectionError, wsConnectionSuccess,
     wsConnectionUserInit,
-    reset, wsConnectionGetMessage
+    reset, wsConnectionGetMessage,
+    initialState as testInitialState
 } from "./orderFeed";
 import {testWsDataAll} from "../utils/data";
-
-const testInitialState: IOrderFeedInitialState = {
-    orders: null,
-    total: 0,
-    totalToday: 0,
-    wsConnected: false,
-    wsError: false,
-    userPage: false,
-}
 
 describe('orderFeed reducers', () => {
     it('should return the initial state', () => {

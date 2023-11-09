@@ -10,7 +10,7 @@ export interface IOrderFeedInitialState {
     userPage: boolean,
 }
 
-const initialState: IOrderFeedInitialState = {
+export const initialState: IOrderFeedInitialState = {
     orders: null,
     total: 0,
     totalToday: 0,

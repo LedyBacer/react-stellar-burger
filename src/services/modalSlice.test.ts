@@ -1,22 +1,14 @@
-import reducer, {IModalSliceInitialState, handleClosing} from './modalSlice'
+import reducer, {handleClosing,
+initialState as testInitialState
+} from './modalSlice'
 
 describe('modalSlice reducers', () => {
     it('should return the initial state', () => {
-        expect(reducer(undefined, {type: undefined})).toEqual(
-            {
-                isClosing: false
-            }
-        )
+        expect(reducer(undefined, {type: undefined})).toEqual(testInitialState)
     })
 
     it('should handle handleClosing', () => {
-        const previousState: IModalSliceInitialState = {isClosing: false}
-
-        expect(reducer(previousState, handleClosing(true))).toEqual(
-            {
-                isClosing: true,
-            }
-        )
+        expect(reducer(testInitialState, handleClosing(true))).toEqual({isClosing: true})
     })
 
 })

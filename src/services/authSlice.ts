@@ -15,7 +15,7 @@ export interface IAuthSliceInitialState {
     jwtRenewed: boolean
 }
 
-const initialState: IAuthSliceInitialState = {
+export const initialState: IAuthSliceInitialState = {
     userEmail: '',
     userName: '',
     accessToken: null,
