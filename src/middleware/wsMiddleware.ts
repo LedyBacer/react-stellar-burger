@@ -21,8 +21,8 @@ export const socketMiddleware = (wsUrl:Record<string, string>, wsActions:Record<
 
     if (socket) {
 
-        socket.onopen = event => {
-            dispatch({ type: onOpen, payload: event});
+        socket.onopen = () => {
+            dispatch({ type: onOpen });
         };
 
         socket.onerror = event => {
