@@ -1,10 +1,10 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-interface IInitialState {
+export interface IModalSliceInitialState {
     isClosing: boolean
 }
 
-const initialState: IInitialState = {
+const initialState: IModalSliceInitialState = {
     isClosing: false
 }
 

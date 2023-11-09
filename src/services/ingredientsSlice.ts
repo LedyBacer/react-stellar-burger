@@ -2,14 +2,14 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {request} from "../utils/api";
 import {IBurgData, TAppThunkAction} from "../utils/types";
 
-interface IInitialState {
+export interface IIngredientsSliceInitialState {
     burgersData: Array<IBurgData>,
     ingredientRequest: boolean,
     ingredientFailed: boolean,
     ingredientLoaded: boolean
 }
 
-const initialState: IInitialState = {
+const initialState: IIngredientsSliceInitialState = {
     burgersData: [],
     ingredientRequest: false,
     ingredientFailed: false,
@@ -50,5 +50,7 @@ export function getIngredients(): TAppThunkAction {
             });
     }
 }
+
+export const { fetchStarted, fetchSuccess, fetchError  } = ingredientsSlice.actions
 
 export default ingredientsSlice.reducer

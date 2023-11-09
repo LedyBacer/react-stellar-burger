@@ -106,7 +106,7 @@ function IncludingIngredients({ burgersData, cart, handleCart }: TIncludingIngre
     }, [])
 
     return (
-        <div className={styles.ingredient_container}>
+        <div className={styles.ingredient_container} data-test='ingredient_container'>
             {cart.map((ingredientsId, index) => {
                 const [ ingredient ] = burgersData.filter(e => e._id.includes(ingredientsId.ingredientId))
 
