@@ -8,6 +8,11 @@ import {useLocation, useNavigate} from "react-router-dom";
 
 function Ingredient({index, id, sum}: {index: number, id: string, sum: number}) {
     const burgersData = useAppSelector(state => state.ingredients.burgersData);
+
+    if (!id) {
+        return null
+    }
+
     const [ ingredient ] = burgersData.filter(e => e._id.includes(id))
     const img = ingredient.image;
 
@@ -64,7 +69,13 @@ function Order({item}: {item: TOrder}) {
     useEffect(() => {
         let tempTotal: number = 0;
 
+
+
         item.ingredients.map((id) => {
+            if (!id) {
+                return null
+            }
+
             const [ ingredient ] = burgersData.filter(e => e._id.includes(id))
             tempTotal += ingredient.price
         })

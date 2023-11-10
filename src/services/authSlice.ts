@@ -3,7 +3,7 @@ import {request} from "../utils/api";
 import {eraseCookie, getCookie} from "../utils/cookie";
 import {TAppThunkAction} from "../utils/types";
 
-interface IInitialState {
+export interface IAuthSliceInitialState {
     userEmail: string,
     userName: string,
     accessToken: string | null,
@@ -15,7 +15,7 @@ interface IInitialState {
     jwtRenewed: boolean
 }
 
-const initialState: IInitialState = {
+export const initialState: IAuthSliceInitialState = {
     userEmail: '',
     userName: '',
     accessToken: null,
@@ -260,5 +260,5 @@ export function updateUserInfoRequest(payload: {email: string, password: string,
     }
 }
 
-export const { setRedirection } = authSlice.actions
+export const { setRedirection, fetchStarted, fetchSuccess, fetchError, jwtExpired, jwtRenewedFalse, updateToken, updateInfo, handleLogout } = authSlice.actions
 export default authSlice.reducer

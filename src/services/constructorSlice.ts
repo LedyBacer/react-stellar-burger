@@ -1,16 +1,17 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from 'uuid';
 
 export interface IIngredientsId {
     ingredientId: string,
     cardId: string
 }
 
-type TInitialState = {
+export type TConstructorSliceInitialState = {
     ingredientsId: Array<IIngredientsId>,
     bunId: string
 }
 
-const initialState: TInitialState = {
+export const initialState: TConstructorSliceInitialState = {
     ingredientsId: [],
     bunId: '',
 }
@@ -22,7 +23,7 @@ const constructorSlice = createSlice({
         addIngredient(state, action: PayloadAction<string>) {
             state.ingredientsId.push({
                 ingredientId: action.payload,
-                cardId: crypto.randomUUID()
+                cardId: uuidv4()
             });
         },
         removeIngredient(state, action: PayloadAction<number>) {

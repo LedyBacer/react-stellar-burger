@@ -81,13 +81,15 @@ function IngredientItem({ingredient, handleCart, index, id, moveCard}: TIngredie
     return (
         <div style={{opacity}} className={styles.ingridient} ref={ref} data-handler-id={handlerId}>
             <DragIcon type="primary" />
-            <ConstructorElement
-                text={ingredient.name}
-                price={ingredient.price}
-                thumbnail={ingredient.image}
-                extraClass="ml-2 mr-1"
-                handleClose={() => handleCart(index)}
-            />
+            <div data-test={ingredient.name === 'Соус Spicy-X' ? 'ingredient1_data' : ingredient.name === 'Соус фирменный Space Sauce' ? 'ingredient2_data' : ''}>
+                <ConstructorElement
+                    text={ingredient.name}
+                    price={ingredient.price}
+                    thumbnail={ingredient.image}
+                    extraClass={`ml-2 mr-1`}
+                    handleClose={() => handleCart(index)}
+                />
+            </div>
         </div>
     )
 }
@@ -106,7 +108,7 @@ function IncludingIngredients({ burgersData, cart, handleCart }: TIncludingIngre
     }, [])
 
     return (
-        <div className={styles.ingredient_container}>
+        <div className={styles.ingredient_container} data-test='ingredient_container'>
             {cart.map((ingredientsId, index) => {
                 const [ ingredient ] = burgersData.filter(e => e._id.includes(ingredientsId.ingredientId))
 

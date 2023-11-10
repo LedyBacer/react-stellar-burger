@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Order} from "../utils/types";
 
-interface IInitialState {
+export interface IOrderFeedInitialState {
     orders: Array<Order> | null,
     total: number,
     totalToday: number,
@@ -10,7 +10,7 @@ interface IInitialState {
     userPage: boolean,
 }
 
-const initialState: IInitialState = {
+export const initialState: IOrderFeedInitialState = {
     orders: null,
     total: 0,
     totalToday: 0,
@@ -58,6 +58,6 @@ export const orderFeed = createSlice({
     },
 })
 
-export const {wsConnectionClose, wsConnectionSuccess, wsConnectionUserInit, wsConnectionAllInit, wsConnectionError, wsConnectionClosed, wsConnectionGetMessage } = orderFeed.actions
+export const {reset, wsConnectionClose, wsConnectionSuccess, wsConnectionUserInit, wsConnectionAllInit, wsConnectionError, wsConnectionClosed, wsConnectionGetMessage } = orderFeed.actions
 
 export default orderFeed.reducer

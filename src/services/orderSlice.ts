@@ -3,14 +3,14 @@ import {request} from "../utils/api";
 import {clearCart, IIngredientsId} from "./constructorSlice";
 import {TAppThunkAction} from "../utils/types";
 
-interface IInitialState {
+export interface IOrderSliceInitialState {
     id: string,
     orderErr: boolean,
     orderRequest: boolean,
     orderReady: boolean
 }
 
-const initialState: IInitialState = {
+export const initialState: IOrderSliceInitialState = {
     id: "000000",
     orderErr: false,
     orderRequest: false,
@@ -75,5 +75,7 @@ export function placeOrder(payload: TPayload): TAppThunkAction {
             });
     }
 }
+
+export const { fetchStarted, fetchSuccess, fetchError  } = orderSlice.actions
 
 export default orderSlice.reducer

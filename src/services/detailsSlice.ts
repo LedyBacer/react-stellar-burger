@@ -2,14 +2,14 @@ import {createSlice} from "@reduxjs/toolkit";
 import {IBurgData} from "../utils/types";
 import type { PayloadAction } from '@reduxjs/toolkit'
 
-interface IInitialState {
+export interface IDetailsSliceInitialState {
     ingDetails: IBurgData,
     modalType: string,
     modalHeader: string,
     isOpen: boolean
 }
 
-const initialState: IInitialState = {
+export const initialState: IDetailsSliceInitialState = {
     ingDetails: {
         _id: '',
         calories: 0,

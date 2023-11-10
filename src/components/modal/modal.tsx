@@ -39,14 +39,13 @@ export default function Modal({ children }: TModal) {
         return ReactDOM.createPortal(
             (
                 <>
-                    <div className={styles.modal}>
-                        <div className={styles.header}>
+                    <div className={styles.modal} data-test='modal'>
+                        <div className={styles.header} data-test='modal_header'>
                             <p className="text text_type_main-large">{modalHeader}</p>
                             <div className={styles.button}>
                                 <CloseIcon
                                     type="primary"
                                     onClick={handleClose}
-
                                 />
                             </div>
                         </div>
