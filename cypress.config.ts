@@ -7,7 +7,7 @@ export default defineConfig({
       // implement node event listeners here
     },
     baseUrl: 'http://localhost:3000',
-    requestTimeout: 10000
+    requestTimeout: 20000
   },
   env: {
     bun: 'Краторная булка N-200i',

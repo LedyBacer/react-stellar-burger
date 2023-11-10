@@ -91,12 +91,12 @@ describe('constructor works correctly', () => {
             .trigger("dragover")
             .trigger("drop");
 
-        cy.contains(Cypress.env('order_btn')).click()
-        cy.get('[data-test^=modal]').should('exist')
         cy.intercept({
             method: 'POST',
             url: Cypress.env('api_order'),
         }).as('dataGetFirst');
+        cy.contains(Cypress.env('order_btn')).click()
+        cy.get('[data-test^=modal]').should('exist')
         cy.wait('@dataGetFirst').its('response.statusCode').should('equal', 200)
         cy.contains('Ваш заказ начали готовить').should('exist')
     });
