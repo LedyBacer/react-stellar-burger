@@ -1,71 +1,73 @@
-# [Проект "Stellar Burgers"](https://bacer.store)
+# [Project: "Stellar Burgers"](https://bacer.store)
 
-Проект "Stellar Burgers" - это учебный сайт-приложение космической бургерной, написанный на TypeScript. Он представляет собой интерактивную платформу, где пользователи могут создавать свои собственные космические бургеры, заказывать их и следить за процессом приготовления.
+The "Stellar Burgers" project is an educational web-app of a cosmic burger shop, written in TypeScript. It is an interactive platform where users can create their own cosmic burgers, place orders, and track the cooking process.
 
-## Фишки
+## Features
 
-- Связь с бэкэндом через ws и API: Проект использует WebSocket и API для взаимодействия с бэкэндом. Это позволяет обновлять информацию о заказе в режиме реального времени и обеспечивает быстрое и плавное обновление состояния приложения.
+- Backend communication via ws and API: The project uses WebSocket and API for backend interaction. This allows for real-time order information updates and ensures fast and smooth application state refreshes.
 
-- Drag'n'Drop: Пользователи могут легко создавать свои собственные космические бургеры, перетаскивая и компонуя различные ингредиенты, благодаря функционалу Drag'n'Drop.
+- Drag'n'Drop: Users can easily build their own cosmic burgers by dragging and dropping various ingredients, thanks to the Drag'n'Drop functionality.
 
-- Роутинг и защищенные роуты: Реализован роутинг для управления различными страницами приложения. Например, некоторые страницы, такие как страница профиля, доступны только для зарегистрированных пользователей.
+- Routing and protected routes: Routing has been implemented to manage different pages of the application. For instance, some pages, such as the profile page, are accessible only to registered users.
 
-- Регистрация и страница профиля: Пользователи могут зарегистрироваться в приложении и создать свой профиль. На странице профиля они могут отредактировать свои личные данные и просмотреть свои предыдущие заказы.
+- Registration and profile page: Users can register in the application and create their profile. On the profile page, they can edit their personal information and view their past orders.
 
-- Оформление заказа: Пользователи могут выбрать необходимые ингредиенты для своего бургера, указать количество, добавить его в корзину и оформить заказ. Они также могут просмотреть свою текущую корзину и отредактировать ее перед оформлением заказа.
+- Checkout: Users can select the necessary ingredients for their burger, specify the quantity, add it to the cart, and place an order. They can also view their current cart and edit it before checking out.
 
-- Лента заказов в режиме реального времени: Пользователи могут видеть список всех заказов, которые были оформлены в приложении, в режиме реального времени. Это позволяет пользователям быть в курсе свежих заказов и следить за процессом приготовления.
+- Real-time order feed: Users can see a list of all orders placed in the application in real-time. This allows users to stay informed about fresh orders and follow the cooking process.
 
-## Используемые технологии:
+## Technologies Used:
 
-- React: JavaScript-библиотека для создания пользовательских интерфейсов.
-- TypeScript: Статически типизированный вариант JavaScript, который позволяет обнаруживать ошибки на этапе разработки.
-- React-dnd: Библиотека для реализации функционала Drag'n'Drop в React-приложениях.
-- Redux: Библиотека для управления состоянием приложения.
-- Jest: Фреймворк для написания тестов JavaScript-приложений.
-- Cypress: Фреймворк для написания e2e тестов приложений.
+- React: A JavaScript library for building user interfaces.
+- TypeScript: A statically typed variant of JavaScript that enables error detection during development.
+- React-dnd: A library for implementing Drag'n'Drop functionality in React applications.
+- Redux: A library for managing application state.
+- Jest: A framework for writing tests for JavaScript applications.
+- Cypress: A framework for writing end-to-end tests for applications.
 
-## Разработка
+## Development
 
-### Предварительные требования
+### Prerequisites
 
-Перед тем как начать, убедитесь, что у вас установлены следующие инструменты:
+Before you begin, make sure you have the following tools installed:
 
-- git (для клонирования репозитория)
-- Node.js (для запуска проекта)
+- git (for cloning the repository)
+- Node.js (to run the project)
 
-### Установка
+### Installation
 
-1. Клонируйте репозиторий:
+1. Clone the repository:
 ```
 git clone https://github.com/LedyBacer/react-stellar-burger.git
 ```
-2. Перейдите в папку проекта:
+2. Go to the project folder:
 ```
 cd react-stellar-burger
 ```
-3. Установите зависимости:
+3. Install dependencies:
 ```
 npm install
 ```
-4. Запустите проект:
+4. Run the project:
 ```
 npm start
 ```
 
-После выполнения этих шагов, ваш проект будет доступен по адресу `http://localhost:3000/` в вашем браузере.
+After completing these steps, your project will be accessible at http://localhost:3000/ in your web browser.
 
-### Развёртывание
+### Deployment
 
-Чтобы развернуть проект на сервере, выполните следующие шаги:
+To deploy the project on a server, follow these steps:
 
-1. Соберите проект для продакшена:
+1. Build the project for production:
 ```
 npm run build
 ```
 
-Это создаст папку `build` с оптимизированными для продакшена файлами.
+This will create a `build` folder with files optimized for production.
 
 2. Разверните содержимое папки `build` на вашем веб-сервере.
 
-Для развертывания вы можете воспользоваться услугами любого хостинга, который поддерживает статические сайты. Например, [Netlify](https://www.netlify.com/), [Vercel](https://vercel.com/), [GitHub Pages](https://pages.github.com/) и другие.
+2. Deploy the contents of the build folder on your web server.
+
+For deployment, you can use the services of any hosting provider that supports static sites. Examples include [Netlify](https://www.netlify.com/), [Vercel(https://vercel.com/)], [GitHub Pages(https://pages.github.com/)], and others.
