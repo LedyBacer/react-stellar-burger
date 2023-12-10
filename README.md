@@ -66,8 +66,6 @@ npm run build
 
 This will create a `build` folder with files optimized for production.
 
-2. Разверните содержимое папки `build` на вашем веб-сервере.
-
 2. Deploy the contents of the build folder on your web server.
 
 For deployment, you can use the services of any hosting provider that supports static sites. Examples include [Netlify](https://www.netlify.com/), [Vercel(https://vercel.com/)], [GitHub Pages(https://pages.github.com/)], and others.
