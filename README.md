@@ -1,4 +1,4 @@
-# [Project: "Stellar Burgers"](https://bacer.store)
+# [Project: "Stellar Burgers"](https://burgers.bacer.ru/)
 
 The "Stellar Burgers" project is an educational web-app of a cosmic burger shop, written in TypeScript. It is an interactive platform where users can create their own cosmic burgers, place orders, and track the cooking process.
 
